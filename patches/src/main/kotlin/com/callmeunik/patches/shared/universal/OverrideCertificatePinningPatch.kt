@@ -1,29 +1,3 @@
-/*
- * Copyright 2026 Morphe.
- * https://github.com/MorpheApp/morphe-patches
- *
- * Original code hard forked from:
- * https://github.com/inotia00/revanced-patches/blob/54ce1d4808b12903602a1a0d9a721ee835093c38/patches/src/main/kotlin/app/revanced/patches/all/misc/network/OverrideCertificatePinningPatch.kt#L4
- *
- * File-Specific License Notice (GPLv3 Section 7 Terms)
- *
- * This file is part of the Morphe project and is licensed under
- * the GNU General Public License version 3 (GPLv3), with the Additional
- * Terms under Section 7 described in the LICENSE file.
- *
- * https://www.gnu.org/licenses/gpl-3.0.html
- *
- * Section 7b: Notice Preservation
- * -------------------------------
- * This entire comment block must be preserved in all copies,
- * distributions, and derivative works of this file, in both
- * original and modified source forms.
- *
- * Portions of this software are provided "AS IS" by the Morphe software project.
- * Any express or implied warranties, including the implied warranties of
- * merchantability and fitness for a particular purpose, are disclaimed.
- */
-
 package com.callmeunik.patches.shared.universal
 
 import app.morphe.patcher.patch.resourcePatch
@@ -33,20 +7,21 @@ import app.morphe.util.trimIndentMultiline
 import org.w3c.dom.Element
 import java.io.File
 
-private const val NETWORK_SECURITY_CONFIG_ATTRIBUTE_NAME = "android:networkSecurityConfig"
+private const val NETWORK_SECURITY_CONFIG_ATTRIBUTE_NAME =
+    "android:networkSecurityConfig"
 
 @Suppress("unused")
 val overrideCertificatePinningPatch = resourcePatch(
     name = "Override certificate pinning",
-    description = "Overrides certificate pinning, allowing to inspect traffic via a proxy.",
-    default = false
+    description = "Overrides certificate pinning, allowing to inspect traffic via a proxy. " +
+            "This patch does not work with Reddit.",
+    default = false,
 ) {
     execute {
         val resXmlDirectory = get("res/xml")
         var networkSecurityFileName = "network_security_config.xml"
 
-        // Add android:networkSecurityConfig="@xml/network_security_config"
-        // and the "networkSecurityConfig" attribute if it does not exist.
+        // Add android:networkSecurityConfig="@xml/network_security_config" and the "networkSecurityConfig" attribute if it does not exist.
         document("AndroidManifest.xml").use { document ->
             val applicationNode = document.getElementsByTagName("application").item(0) as Element
 
