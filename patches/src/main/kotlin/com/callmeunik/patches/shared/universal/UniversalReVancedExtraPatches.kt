@@ -20,7 +20,7 @@ import java.io.File
  * https://github.com/ReVanced/revanced-patches
  */
 
-private const val EXTRA_HELPER = "Lapp/template/extension/extension/UniversalPatchHelper;"
+private const val EXTRA_HELPER = "Lcom/callmeunik/extension/extension/UniversalPatchHelper;"
 
 @Suppress("unused")
 val universalSpoofBuildInfoReVancedPatch = bytecodePatch(
