@@ -26,7 +26,7 @@ import java.io.File
  * Implemented in Morphe style instead of copying ReVanced framework helpers.
  */
 
-private const val HELPER = "Lapp/template/extension/extension/UniversalPatchHelper;"
+private const val HELPER = "Lcom/callmeunik/extension/extension/UniversalPatchHelper;"
 private const val FORCE_DARK_ATTRIBUTE = "android:forceDarkAllowed"
 
 private val targetedForceDarkThemes = setOf(
