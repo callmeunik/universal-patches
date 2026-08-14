@@ -1,5 +1,383 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "0.0.0",
-  "patches": []
+  "version": "1.0.0",
+  "patches": [
+    {
+      "name": "Change version code",
+      "description": "Changes android:versionCode.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalVersionCode",
+          "title": "Version code",
+          "description": "Version code to write into AndroidManifest.xml.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "2147483647",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Disable ad SDK calls",
+      "description": "No-ops common ad SDK load/show/init/fetch methods in bundled ad packages.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Disable clipboard access",
+      "description": "Blocks app clipboard reads and writes.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Disable shake ads",
+      "description": "Skips SensorManager.registerListener calls that can power shake-to-ad behavior.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Enable Android debugging",
+      "description": "Sets android:debuggable=true.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Enable ROM signature spoofing",
+      "description": "Adds fake-signature permission and metadata.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalFakeSignature",
+          "title": "Certificate hex/signature",
+          "description": null,
+          "required": false,
+          "type": "kotlin.String",
+          "default": "",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Export all activities",
+      "description": "Makes all activities exportable.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Export internal data documents provider",
+      "description": "Registers an extension DocumentsProvider for the app internal data directory.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Force dark theme",
+      "description": "Forces common AppCompat, UiModeManager, and Configuration dark-mode checks to night mode.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Hide ADB status",
+      "description": "Hides adb_enabled and development_settings_enabled.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Hide VPN and proxy",
+      "description": "Hides common VPN transport/interface and Java proxy property checks.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Hide app icon",
+      "description": "Removes launcher category from MAIN launcher filters.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Hide mock location",
+      "description": "Hides mock-location signals from app checks.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "hideMockLocationMode",
+          "title": "Mode",
+          "description": "Which mock-location checks to hide.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "full",
+          "values": {
+            "Full": "full",
+            "Location API only": "location",
+            "Settings only": "settings",
+            "AppOps only": "appops",
+            "Extras and provider only": "extras_provider",
+            "Accuracy only": "accuracy"
+          }
+        },
+        {
+          "key": "hideMockLocationProvider",
+          "title": "Provider",
+          "description": "Provider returned when app reads an unknown/mock provider.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "gps",
+          "values": {
+            "GPS": "gps",
+            "Network": "network",
+            "Fused": "fused",
+            "Passive": "passive",
+            "Original": "original"
+          }
+        },
+        {
+          "key": "hideMockLocationAccuracy",
+          "title": "Accuracy meters",
+          "description": "Accuracy value returned by Location.getAccuracy().",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "5.0",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Override certificate pinning",
+      "description": "Forces network security config trust anchors to override pins.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Predictive back gesture",
+      "description": "Enables Android predictive back gesture.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove ad manifest entries",
+      "description": "Removes common ad SDK permissions, services, providers, libraries, and metadata.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove share targets",
+      "description": "Removes chooser/direct share targets.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Set target SDK 34",
+      "description": "Sets targetSdkVersion to 34.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Spoof Play age signals",
+      "description": "Spoofs Play age signal result getters.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalPlayAgeLower",
+          "title": "Lower age",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "18",
+          "values": null
+        },
+        {
+          "key": "universalPlayAgeUpper",
+          "title": "Upper age",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "99",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Spoof SIM provider",
+      "description": "Spoofs TelephonyManager SIM/network provider values.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalSimCountryIso",
+          "title": "Country ISO",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "us",
+          "values": null
+        },
+        {
+          "key": "universalSimOperator",
+          "title": "Operator code",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "310260",
+          "values": null
+        },
+        {
+          "key": "universalSimOperatorName",
+          "title": "Operator name",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "T-Mobile",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Spoof Wi-Fi connection",
+      "description": "Forces common connectivity checks to connected/unmetered.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Spoof build info",
+      "description": "Spoofs common android.os.Build fields with configurable values.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalBuildModel",
+          "title": "MODEL",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Pixel 10 Pro XL",
+          "values": null
+        },
+        {
+          "key": "universalBuildManufacturer",
+          "title": "MANUFACTURER",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Google",
+          "values": null
+        },
+        {
+          "key": "universalBuildBrand",
+          "title": "BRAND",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "google",
+          "values": null
+        },
+        {
+          "key": "universalBuildDevice",
+          "title": "DEVICE",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "mustang",
+          "values": null
+        },
+        {
+          "key": "universalBuildProduct",
+          "title": "PRODUCT",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "mustang",
+          "values": null
+        },
+        {
+          "key": "universalBuildFingerprint",
+          "title": "FINGERPRINT",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "google/mustang/mustang:17/CP2A.260605.012/15430684:user/release-keys",
+          "values": null
+        },
+        {
+          "key": "universalBuildRelease",
+          "title": "VERSION.RELEASE",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "17",
+          "values": null
+        },
+        {
+          "key": "universalBuildSdk",
+          "title": "VERSION.SDK_INT",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "37",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Spoof keystore security level",
+      "description": "Forces key/security level getters to software/trusted-environment style values.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Spoof root of trust",
+      "description": "Spoofs common RootOfTrust verified boot getters.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    }
+  ]
 }
