@@ -1,4 +1,4 @@
-package app.template.patches.shared.universal
+package com.callmeunik.patches.shared.universal
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructionsOrNull
