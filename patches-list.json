@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -13,6 +13,22 @@
     {
       "name": "Ads Regex Basic",
       "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings).",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Advanced Analytics Killer",
+      "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment and common trackers.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Bypass Mandatory Login",
+      "description": "Bypasses common mandatory login and isLoggedIn checks.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -263,6 +279,14 @@
       "options": []
     },
     {
+      "name": "Disable Forced Updates",
+      "description": "Bypasses common force-update and minimum-version checks.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Disable PairIP license check",
       "description": "Removes PairIP manifest components and bypasses common license, VM and background check calls.",
       "default": false,
@@ -373,6 +397,14 @@
       "options": []
     },
     {
+      "name": "Force Allow Backup",
+      "description": "Forces android:allowBackup=\"true\" so the app can be backed up.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Force dark theme",
       "description": "Forces common AppCompat, UiModeManager, and Configuration dark-mode checks to night mode.",
       "default": false,
@@ -472,8 +504,24 @@
       "options": []
     },
     {
+      "name": "Play Integrity Bypass",
+      "description": "Basic bypass for common Play Integrity / SafetyNet / attestation checks.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Predictive back gesture",
       "description": "Enables Android predictive back gesture.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove Rate Us Popup",
+      "description": "Blocks common Rate Us / In-App Review dialogs and prompts.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,

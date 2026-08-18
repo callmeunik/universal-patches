@@ -1,3 +1,14 @@
+## [1.16.0](https://github.com/callmeunik/universal-patches/compare/v1.15.0...v1.16.0) (2026-08-18)
+
+### ✨ New Features
+
+* add Advanced Analytics Killer patch ([c42b4a3](https://github.com/callmeunik/universal-patches/commit/c42b4a3373820ebe5c0478524e457a7157f9fcc6))
+* add Bypass Mandatory Login patch ([c4e62bf](https://github.com/callmeunik/universal-patches/commit/c4e62bf44417a889125ac68ab260beb0de6e1c97))
+* add Disable Forced Updates patch ([522c77d](https://github.com/callmeunik/universal-patches/commit/522c77daaec65679250a948c5aa61d96051e9f7e))
+* add Force Allow Backup patch ([913cd19](https://github.com/callmeunik/universal-patches/commit/913cd1998ce8350f663b53a656ecff07761493bc))
+* add Play Integrity Bypass patch ([b06629f](https://github.com/callmeunik/universal-patches/commit/b06629f885a02a2cc05113fbdf2abb76bdffa1ee))
+* add Remove Rate Us Popup patch ([a279c1a](https://github.com/callmeunik/universal-patches/commit/a279c1ae72a86ffbd4bae9cfb5d6332d26695563))
+
 ## [1.15.0](https://github.com/callmeunik/universal-patches/compare/v1.14.0...v1.15.0) (2026-08-18)
 
 ### ✨ New Features
