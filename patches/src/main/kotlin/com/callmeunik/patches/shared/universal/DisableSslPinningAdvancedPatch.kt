@@ -12,9 +12,75 @@ import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import org.w3c.dom.Element
 
 /**
- * Disable SSL Pinning (Advanced + Certificate)
- * Strong SSL / certificate pinning bypass for OkHttp, TrustManager, Conscrypt, etc.
- * + forces network security config to trust user certificates.
+ * Layer 1: Network security config (safe)
+ */
+private val disableSslPinningResourcePatch = resourcePatch(
+    description = "Relaxes networkSecurityConfig and allows cleartext + user certificates.",
+) {
+    execute {
+        // Patch existing network_security_config if present
+        runCatching {
+            document("res/xml/network_security_config.xml").use { doc ->
+                val root = doc.documentElement ?: return@use
+
+                val baseConfigs = doc.getElementsByTagName("base-config")
+                if (baseConfigs.length == 0) {
+                    val base = doc.createElement("base-config")
+                    base.setAttribute("cleartextTrafficPermitted", "true")
+                    val ts = doc.createElement("trust-anchors")
+                    val sys = doc.createElement("certificates")
+                    sys.setAttribute("src", "system")
+                    val user = doc.createElement("certificates")
+                    user.setAttribute("src", "user")
+                    ts.appendChild(sys)
+                    ts.appendChild(user)
+                    base.appendChild(ts)
+                    root.appendChild(base)
+                } else {
+                    for (i in 0 until baseConfigs.length) {
+                        val base = baseConfigs.item(i) as? Element ?: continue
+                        base.setAttribute("cleartextTrafficPermitted", "true")
+                        val anchors = base.getElementsByTagName("trust-anchors")
+                        if (anchors.length == 0) {
+                            val ts = doc.createElement("trust-anchors")
+                            val sys = doc.createElement("certificates")
+                            sys.setAttribute("src", "system")
+                            val user = doc.createElement("certificates")
+                            user.setAttribute("src", "user")
+                            ts.appendChild(sys)
+                            ts.appendChild(user)
+                            base.appendChild(ts)
+                        } else {
+                            val ts = anchors.item(0) as Element
+                            var hasUser = false
+                            val certs = ts.getElementsByTagName("certificates")
+                            for (j in 0 until certs.length) {
+                                val c = certs.item(j) as? Element ?: continue
+                                if (c.getAttribute("src") == "user") hasUser = true
+                            }
+                            if (!hasUser) {
+                                val user = doc.createElement("certificates")
+                                user.setAttribute("src", "user")
+                                ts.appendChild(user)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Always force cleartext on application
+        runCatching {
+            document("AndroidManifest.xml").use { doc ->
+                val app = doc.getElementsByTagName("application").item(0) as? Element ?: return@use
+                app.setAttribute("android:usesCleartextTraffic", "true")
+            }
+        }
+    }
+}
+
+/**
+ * Layer 2: Bytecode SSL / pinning bypass
  */
 @Suppress("unused")
 val disableSslPinningAdvancedPatch = bytecodePatch(
@@ -22,14 +88,13 @@ val disableSslPinningAdvancedPatch = bytecodePatch(
     description = "Advanced SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs.",
     default = false,
 ) {
-    dependsOn(sslPinningNetworkSecurityPatch)
+    dependsOn(disableSslPinningResourcePatch)
 
     execute {
         val pinHints = listOf(
             "checkservertrusted", "checkclienttrusted", "checktrusted",
             "certificatepinner", "certificate_pinner", "pinner",
             "sslpinning", "ssl_pinning", "pinning",
-            "okhttp3.certificatepinner", "com.android.org.conscrypt",
             "trustmanager", "x509trustmanager", "hostnameverifier",
             "verifypin", "checkpin", "validatepin",
         )
@@ -47,7 +112,6 @@ val disableSslPinningAdvancedPatch = bytecodePatch(
                 val name = method.name
                 val instructions = method.instructionsOrNull?.toList()
 
-                // Neutralize pinning methods
                 if (isPinClass || name.hasPinHint()) {
                     when (method.returnType) {
                         "V" -> {
@@ -60,10 +124,13 @@ val disableSslPinningAdvancedPatch = bytecodePatch(
                             }
                         }
                         "Z" -> {
-                            method.addInstructions(0, """
-                                const/4 v0, 0x1
-                                return v0
-                            """.trimIndent())
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x1
+                                    return v0
+                                """.trimIndent(),
+                            )
                             return@forEach
                         }
                     }
@@ -71,7 +138,6 @@ val disableSslPinningAdvancedPatch = bytecodePatch(
 
                 if (instructions == null) return@forEach
 
-                // Call-sites
                 instructions.forEachIndexed { index, instruction ->
                     val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
                         ?: return@forEachIndexed
@@ -85,51 +151,13 @@ val disableSslPinningAdvancedPatch = bytecodePatch(
                             if (next != null && next.opcode == Opcode.MOVE_RESULT) {
                                 method.replaceInstruction(
                                     index + 1,
-                                    "const/4 v${next.registerA}, 0x1"
+                                    "const/4 v${next.registerA}, 0x1",
                                 )
                             }
                         }
                     }
                 }
             }
-        }
-    }
-}
-
-private val sslPinningNetworkSecurityPatch = resourcePatch(
-    description = "Forces network security config to trust user + system certificates and cleartext.",
-) {
-    execute {
-        // Create / overwrite network_security_config.xml
-        val nscContent = """
-            <?xml version="1.0" encoding="utf-8"?>
-            <network-security-config>
-                <base-config cleartextTrafficPermitted="true">
-                    <trust-anchors>
-                        <certificates src="system" />
-                        <certificates src="user" />
-                    </trust-anchors>
-                </base-config>
-                <debug-overrides>
-                    <trust-anchors>
-                        <certificates src="user" />
-                        <certificates src="system" />
-                    </trust-anchors>
-                </debug-overrides>
-            </network-security-config>
-        """.trimIndent()
-
-        // Write the file
-        val nscFile = File("res/xml/network_security_config.xml")
-        nscFile.parentFile?.mkdirs()
-        nscFile.writeText(nscContent)
-
-        // Point manifest to it
-        document("AndroidManifest.xml").use { doc ->
-            val application = doc.getElementsByTagName("application").item(0) as? Element
-                ?: return@execute
-            application.setAttribute("android:networkSecurityConfig", "@xml/network_security_config")
-            application.setAttribute("android:usesCleartextTraffic", "true")
         }
     }
 }
