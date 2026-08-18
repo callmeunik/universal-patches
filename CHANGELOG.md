@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/callmeunik/universal-patches/compare/v1.3.0...v1.4.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add powerful Remove all ads patch ([4770a0f](https://github.com/callmeunik/universal-patches/commit/4770a0f35ae6cc622398f9eda877d2b8a51d9180))
+
 ## [1.3.0](https://github.com/callmeunik/universal-patches/compare/v1.2.0...v1.3.0) (2026-08-18)
 
 ### ✨ New Features

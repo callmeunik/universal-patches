@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "patches": [
     {
       "name": "Change version code",
@@ -226,6 +226,16 @@
       "description": "Removes common ad SDK activities, services, receivers, providers, permissions and meta-data from the manifest.",
       "default": false,
       "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove all ads (powerful)",
+      "description": "Removes ad components from manifest and disables common ad SDK load/show/isLoaded calls.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
       "compatiblePackages": null,
       "options": []
     },
