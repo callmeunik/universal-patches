@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/callmeunik/universal-patches/compare/v1.1.0...v1.2.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add powerful Disable PairIP license check patch ([f5e03be](https://github.com/callmeunik/universal-patches/commit/f5e03be1323775b766e7bd0d45752f728866cf2d))
+
 ## [1.1.0](https://github.com/callmeunik/universal-patches/compare/v1.0.0...v1.1.0) (2026-08-18)
 
 ### 🐛 Bug Fixes
