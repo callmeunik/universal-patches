@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "patches": [
     {
       "name": "Change app name",
@@ -55,6 +55,16 @@
           "values": null
         }
       ]
+    },
+    {
+      "name": "Disable Firebase / Analytics",
+      "description": "Removes Firebase/analytics components and disables common logEvent / track calls.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": null,
+      "options": []
     },
     {
       "name": "Disable PairIP license check",
@@ -248,6 +258,14 @@
           "values": null
         }
       ]
+    },
+    {
+      "name": "Hide root",
+      "description": "Bypasses common root, Magisk and su detection checks.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
     },
     {
       "name": "Override certificate pinning",
@@ -573,6 +591,14 @@
           "values": null
         }
       ]
+    },
+    {
+      "name": "Spoof install source",
+      "description": "Makes the app think it was installed from Google Play Store.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
     },
     {
       "name": "Spoof keystore security level",

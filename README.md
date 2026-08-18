@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.9.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.9.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;41 patches total
+> **[v1.10.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.10.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;44 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;41 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;44 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -25,6 +25,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Change app name](#change-app-name) | Changes the app name shown on the launcher. | • App name |
 | [Change package name](#change-package-name) | Changes the package name in the manifest. May break some app features. | • New package name |
 | [Change version code](#change-version-code) | Changes android:versionCode. | • Version code |
+| [Disable Firebase / Analytics](#disable-firebase-analytics) | Removes Firebase/analytics components and disables common logEvent / track calls. |  |
 | [Disable PairIP license check](#disable-pairip-license-check) | Removes PairIP manifest components and bypasses common license, VM and background check calls. |  |
 | [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |
 | [Disable ad SDK calls](#disable-ad-sdk-calls) | No-ops common ad SDK load/show/init/fetch methods in bundled ad packages. |  |
@@ -42,6 +43,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Hide VPN and proxy](#hide-vpn-and-proxy) | Hides common VPN transport/interface and Java proxy property checks. |  |
 | [Hide app icon](#hide-app-icon) | Removes launcher category from MAIN launcher filters. |  |
 | [Hide mock location](#hide-mock-location) | Hides mock-location signals from app checks. | • Mode<br>• Provider<br>• Accuracy meters |
+| [Hide root](#hide-root) | Bypasses common root, Magisk and su detection checks. |  |
 | [Override certificate pinning](#override-certificate-pinning) | Forces network security config trust anchors to override pins. |  |
 | [Predictive back gesture](#predictive-back-gesture) | Enables Android predictive back gesture. |  |
 | [Remove ad manifest entries](#remove-ad-manifest-entries) | Removes common ad SDK permissions, services, providers, libraries, and metadata. |  |
@@ -60,6 +62,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Spoof Wi-Fi connection](#spoof-wi-fi-connection) | Forces common connectivity checks to connected/unmetered. |  |
 | [Spoof Wi-Fi identifiers](#spoof-wi-fi-identifiers) | Spoofs Wi-Fi SSID, BSSID, and MAC address reads. | • SSID<br>• BSSID<br>• MAC address |
 | [Spoof build info](#spoof-build-info) | Spoofs common android.os.Build fields with configurable values. | • MODEL<br>• MANUFACTURER<br>• BRAND<br>• DEVICE<br>• PRODUCT<br>• FINGERPRINT<br>• VERSION.RELEASE<br>• VERSION.SDK_INT |
+| [Spoof install source](#spoof-install-source) | Makes the app think it was installed from Google Play Store. |  |
 | [Spoof keystore security level](#spoof-keystore-security-level) | Forces key/security level getters to software/trusted-environment style values. |  |
 | [Spoof root of trust](#spoof-root-of-trust) | Spoofs common RootOfTrust verified boot getters. |  |
 | [Spoof telephony IDs](#spoof-telephony-ids) | Spoofs IMEI, MEID, subscriber ID, SIM serial, and line number reads. | • IMEI<br>• MEID<br>• Subscriber ID<br>• SIM serial<br>• Line number |

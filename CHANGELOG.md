@@ -1,3 +1,11 @@
+## [1.10.0](https://github.com/callmeunik/universal-patches/compare/v1.9.0...v1.10.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Disable Firebase Analytics patch ([2ee9c37](https://github.com/callmeunik/universal-patches/commit/2ee9c37f3e691847d536cf1b744e8b7fd68d549c))
+* Add Hide root patch ([1662b71](https://github.com/callmeunik/universal-patches/commit/1662b7114dee4b95cdd32710e827e10e14187b42))
+* Add Spoof install source patch ([6c8b1b8](https://github.com/callmeunik/universal-patches/commit/6c8b1b8890a30397071de205cd69a95446375532))
+
 ## [1.9.0](https://github.com/callmeunik/universal-patches/compare/v1.8.0...v1.9.0) (2026-08-18)
 
 ### ✨ New Features
