@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/callmeunik/universal-patches/compare/v1.8.0...v1.9.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Signature kill patch ([ff78524](https://github.com/callmeunik/universal-patches/commit/ff78524353c8b3b2cc6854967f954c5fe1171a74))
+
 ## [1.8.0](https://github.com/callmeunik/universal-patches/compare/v1.7.0...v1.8.0) (2026-08-18)
 
 ### ✨ New Features

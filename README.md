@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.8.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.8.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;40 patches total
+> **[v1.9.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.9.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;41 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;40 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;41 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -52,6 +52,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Remove share targets](#remove-share-targets) | Removes chooser/direct share targets. |  |
 | [SSL bypass](#ssl-bypass) | Powerful SSL and certificate pinning bypass for common libraries (OkHttp, TrustManager, etc.). |  |
 | [Set target SDK 34](#set-target-sdk-34) | Sets targetSdkVersion to 34. |  |
+| [Signature kill](#signature-kill) | Bypasses common app signature and signing verification checks. |  |
 | [Spoof Android ID](#spoof-android-id) | Spoofs Settings.Secure android_id reads. | • Android ID |
 | [Spoof Bluetooth identifiers](#spoof-bluetooth-identifiers) | Spoofs Bluetooth adapter name and MAC address reads. | • Bluetooth name<br>• Bluetooth MAC address |
 | [Spoof Play age signals](#spoof-play-age-signals) | Spoofs Play age signal result getters. | • Lower age<br>• Upper age |
