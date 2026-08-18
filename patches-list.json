@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "patches": [
     {
       "name": "Change version code",
@@ -276,6 +276,16 @@
       "description": "Removes chooser/direct share targets.",
       "default": false,
       "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "SSL bypass",
+      "description": "Powerful SSL and certificate pinning bypass for common libraries (OkHttp, TrustManager, etc.).",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
       "compatiblePackages": null,
       "options": []
     },

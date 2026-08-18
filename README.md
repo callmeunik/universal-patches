@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.6.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.6.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;37 patches total
+> **[v1.7.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.7.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;38 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;37 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;38 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -48,6 +48,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Remove internet permission](#remove-internet-permission) | Removes the INTERNET permission so the app cannot access the network at all. Blocks all trackers, analytics and ads from phoning home, but also disables any legitimate online features. Only enable for apps you want fully offline. |  |
 | [Remove link verification](#remove-link-verification) | Removes autoVerify from intent-filters so app links can be opened manually. |  |
 | [Remove share targets](#remove-share-targets) | Removes chooser/direct share targets. |  |
+| [SSL bypass](#ssl-bypass) | Powerful SSL and certificate pinning bypass for common libraries (OkHttp, TrustManager, etc.). |  |
 | [Set target SDK 34](#set-target-sdk-34) | Sets targetSdkVersion to 34. |  |
 | [Spoof Android ID](#spoof-android-id) | Spoofs Settings.Secure android_id reads. | • Android ID |
 | [Spoof Bluetooth identifiers](#spoof-bluetooth-identifiers) | Spoofs Bluetooth adapter name and MAC address reads. | • Bluetooth name<br>• Bluetooth MAC address |

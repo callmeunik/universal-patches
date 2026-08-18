@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/callmeunik/universal-patches/compare/v1.6.0...v1.7.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add powerful SSL bypass patch ([711f8d1](https://github.com/callmeunik/universal-patches/commit/711f8d17897597c08a75bd6b370c45d7e74a5865))
+
 ## [1.6.0](https://github.com/callmeunik/universal-patches/compare/v1.5.0...v1.6.0) (2026-08-18)
 
 ### ✨ New Features
