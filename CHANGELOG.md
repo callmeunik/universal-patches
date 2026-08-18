@@ -1,3 +1,11 @@
+## [1.18.0](https://github.com/callmeunik/universal-patches/compare/v1.17.0...v1.18.0) (2026-08-18)
+
+### ✨ New Features
+
+* add Disable Analytics Ultimate patch ([be55c41](https://github.com/callmeunik/universal-patches/commit/be55c41b01f6971670a285f679e4ecbd0d4a2d97))
+* add SSL Bypass Ultimate patch ([a367a2f](https://github.com/callmeunik/universal-patches/commit/a367a2f3e9c3b7e14c8aabac2750c49580196871))
+* fix Remove All Ads Ultimate patch ([a583cc4](https://github.com/callmeunik/universal-patches/commit/a583cc4d32cf8ffc54b25a54e37c6be3de3d2b89))
+
 ## [1.17.0](https://github.com/callmeunik/universal-patches/compare/v1.16.0...v1.17.0) (2026-08-18)
 
 ### 🐛 Bug Fixes

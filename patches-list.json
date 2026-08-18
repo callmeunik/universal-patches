@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -303,6 +303,16 @@
       "options": []
     },
     {
+      "name": "Disable Analytics Ultimate",
+      "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry and other common trackers.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Disable Firebase / Analytics",
       "description": "Removes Firebase/analytics components and disables common logEvent / track calls.",
       "default": false,
@@ -565,7 +575,7 @@
     },
     {
       "name": "Remove All Ads Ultimate",
-      "description": "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls without breaking apps.",
+      "description": "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls.",
       "default": false,
       "dependencies": [
         "ResourcePatch"
@@ -618,6 +628,16 @@
       "description": "Removes chooser/direct share targets.",
       "default": false,
       "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "SSL Bypass Ultimate",
+      "description": "Powerful SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
       "compatiblePackages": null,
       "options": []
     },
