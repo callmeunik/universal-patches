@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/callmeunik/universal-patches/compare/v1.2.0...v1.3.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Disable Play Store updates patch ([36660cd](https://github.com/callmeunik/universal-patches/commit/36660cdf7ae0f70b2c8f0a5a7e600145966f45bf))
+* Add Remove all ads patch ([514ec78](https://github.com/callmeunik/universal-patches/commit/514ec7844c88430d756d40d101dd917e13190e8e))
+
 ## [1.2.0](https://github.com/callmeunik/universal-patches/compare/v1.1.0...v1.2.0) (2026-08-18)
 
 ### ✨ New Features

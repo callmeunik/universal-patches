@@ -15,15 +15,16 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.2.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.2.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;31 patches total
+> **[v1.3.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.3.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;33 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;31 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;33 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Change version code](#change-version-code) | Changes android:versionCode. | • Version code |
 | [Disable PairIP license check](#disable-pairip-license-check) | Removes PairIP manifest components and bypasses common license, VM and background check calls. |  |
+| [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |
 | [Disable ad SDK calls](#disable-ad-sdk-calls) | No-ops common ad SDK load/show/init/fetch methods in bundled ad packages. |  |
 | [Disable clipboard access](#disable-clipboard-access) | Blocks app clipboard reads and writes. |  |
 | [Disable shake ads](#disable-shake-ads) | Skips SensorManager.registerListener calls that can power shake-to-ad behavior. |  |
@@ -40,6 +41,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Override certificate pinning](#override-certificate-pinning) | Forces network security config trust anchors to override pins. |  |
 | [Predictive back gesture](#predictive-back-gesture) | Enables Android predictive back gesture. |  |
 | [Remove ad manifest entries](#remove-ad-manifest-entries) | Removes common ad SDK permissions, services, providers, libraries, and metadata. |  |
+| [Remove all ads](#remove-all-ads) | Removes common ad SDK activities, services, receivers, providers, permissions and meta-data from the manifest. |  |
 | [Remove internet permission](#remove-internet-permission) | Removes the INTERNET permission so the app cannot access the network at all. Blocks all trackers, analytics and ads from phoning home, but also disables any legitimate online features. Only enable for apps you want fully offline. |  |
 | [Remove share targets](#remove-share-targets) | Removes chooser/direct share targets. |  |
 | [Set target SDK 34](#set-target-sdk-34) | Sets targetSdkVersion to 34. |  |

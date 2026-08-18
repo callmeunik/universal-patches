@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "patches": [
     {
       "name": "Change version code",
@@ -27,6 +27,14 @@
       "dependencies": [
         "ResourcePatch"
       ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Disable Play Store updates",
+      "description": "Removes Play Store update / installer related components and permissions from the manifest.",
+      "default": false,
+      "dependencies": [],
       "compatiblePackages": null,
       "options": []
     },
@@ -208,6 +216,14 @@
     {
       "name": "Remove ad manifest entries",
       "description": "Removes common ad SDK permissions, services, providers, libraries, and metadata.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove all ads",
+      "description": "Removes common ad SDK activities, services, receivers, providers, permissions and meta-data from the manifest.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
