@@ -1,3 +1,9 @@
+## [1.19.0](https://github.com/callmeunik/universal-patches/compare/v1.18.0...v1.19.0) (2026-08-18)
+
+### ✨ New Features
+
+* add Remove Mod Toaster patch with Toast/Dialog show regex ([651840b](https://github.com/callmeunik/universal-patches/commit/651840b995349b4deadfe6ad3c52810debd66c13))
+
 ## [1.18.0](https://github.com/callmeunik/universal-patches/compare/v1.17.0...v1.18.0) (2026-08-18)
 
 ### ✨ New Features

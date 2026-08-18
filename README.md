@@ -15,16 +15,15 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.18.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.18.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;60 patches total
+> **[v1.19.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.19.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;56 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;60 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;56 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Ads Regex Advance](#ads-regex-advance) | Advanced universal ad SDK killer (load/show/init across major networks). |  |
 | [Ads Regex Basic](#ads-regex-basic) | Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings). |  |
-| [Advanced Analytics Killer](#advanced-analytics-killer) | Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment and common trackers. |  |
 | [Bypass Emulator Detection](#bypass-emulator-detection) | Bypasses common emulator, Genymotion, BlueStacks and virtual device detection checks. |  |
 | [Bypass Mandatory Login](#bypass-mandatory-login) | Bypasses common mandatory login and isLoggedIn checks. |  |
 | [Bypass uninstall popup](#bypass-uninstall-popup) | Aggressively blocks uninstall-another-app popups and force-close on detect. | • Extra package names |
@@ -33,13 +32,10 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Change package name](#change-package-name) | Changes the package name in the manifest. May break some app features. | • New package name |
 | [Change version code](#change-version-code) | Changes android:versionCode. | • Version code |
 | [Control app permissions](#control-app-permissions) | Removes selected permissions from the app. Turn ON only what you want to disable/remove. | • Remove INTERNET<br>• Remove CAMERA<br>• Remove RECORD_AUDIO<br>• Remove LOCATION (fine/coarse/background)<br>• Remove READ/WRITE CONTACTS<br>• Remove SMS / MMS<br>• Remove PHONE / CALL state<br>• Remove STORAGE / media files<br>• Remove CALENDAR<br>• Remove BODY_SENSORS<br>• Remove BLUETOOTH connect/scan<br>• Remove POST_NOTIFICATIONS<br>• Remove AD_ID / Ad services<br>• Remove ACTIVITY_RECOGNITION<br>• Remove REQUEST_INSTALL_PACKAGES<br>• Remove SYSTEM_ALERT_WINDOW<br>• Remove QUERY_ALL_PACKAGES |
-| [Disable Analytics & Tracking (Advanced)](#disable-analytics-tracking-advanced) | Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry, Bugsnag and other common trackers. |  |
 | [Disable Analytics Ultimate](#disable-analytics-ultimate) | Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry and other common trackers. |  |
-| [Disable Firebase / Analytics](#disable-firebase-analytics) | Removes Firebase/analytics components and disables common logEvent / track calls. |  |
 | [Disable Forced Updates](#disable-forced-updates) | Bypasses common force-update and minimum-version checks. |  |
 | [Disable PairIP license check](#disable-pairip-license-check) | Removes PairIP manifest components and bypasses common license, VM and background check calls. |  |
 | [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |
-| [Disable SSL Pinning (Advanced)](#disable-ssl-pinning-advanced) | Advanced SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs. |  |
 | [Disable ad SDK calls](#disable-ad-sdk-calls) | No-ops common ad SDK load/show/init/fetch methods in bundled ad packages. |  |
 | [Disable clipboard access](#disable-clipboard-access) | Blocks app clipboard reads and writes. |  |
 | [Disable screenshots](#disable-screenshots) | Blocks screenshots and screen recording using FLAG_SECURE on Activity onCreate. |  |
@@ -61,6 +57,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Play Integrity Bypass](#play-integrity-bypass) | Basic bypass for common Play Integrity / SafetyNet / attestation checks. |  |
 | [Predictive back gesture](#predictive-back-gesture) | Enables Android predictive back gesture. |  |
 | [Remove All Ads Ultimate](#remove-all-ads-ultimate) | Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls. |  |
+| [Remove Mod Toaster](#remove-mod-toaster) | Removes Toast/Dialog show calls and common mod APK toast messages (Telegram, t.me, Mod by). |  |
 | [Remove Rate Us Popup](#remove-rate-us-popup) | Blocks common Rate Us / In-App Review dialogs and prompts. |  |
 | [Remove Tracking Parameters from URLs](#remove-tracking-parameters-from-urls) | Attempts to neutralize common tracking parameters (utm_*, fbclid, gclid, mc_eid, etc.) in URLs. |  |
 | [Remove ad manifest entries](#remove-ad-manifest-entries) | Removes common ad SDK permissions, services, providers, libraries, and metadata. |  |
@@ -68,7 +65,6 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Remove link verification](#remove-link-verification) | Removes autoVerify from intent-filters so app links can be opened manually. |  |
 | [Remove share targets](#remove-share-targets) | Removes chooser/direct share targets. |  |
 | [SSL Bypass Ultimate](#ssl-bypass-ultimate) | Powerful SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs. |  |
-| [SSL bypass](#ssl-bypass) | Powerful SSL and certificate pinning bypass for common libraries (OkHttp, TrustManager, etc.). |  |
 | [Set target SDK 34](#set-target-sdk-34) | Sets targetSdkVersion to 34. |  |
 | [Signature kill](#signature-kill) | Bypasses common app signature and signing verification checks. |  |
 | [Spoof Android ID](#spoof-android-id) | Spoofs Settings.Secure android_id reads. | • Android ID |

@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -13,14 +13,6 @@
     {
       "name": "Ads Regex Basic",
       "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings).",
-      "default": false,
-      "dependencies": [],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "Advanced Analytics Killer",
-      "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment and common trackers.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -295,26 +287,8 @@
       ]
     },
     {
-      "name": "Disable Analytics & Tracking (Advanced)",
-      "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry, Bugsnag and other common trackers.",
-      "default": false,
-      "dependencies": [],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
       "name": "Disable Analytics Ultimate",
       "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry and other common trackers.",
-      "default": false,
-      "dependencies": [
-        "ResourcePatch"
-      ],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "Disable Firebase / Analytics",
-      "description": "Removes Firebase/analytics components and disables common logEvent / track calls.",
       "default": false,
       "dependencies": [
         "ResourcePatch"
@@ -345,16 +319,6 @@
       "description": "Removes Play Store update / installer related components and permissions from the manifest.",
       "default": false,
       "dependencies": [],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "Disable SSL Pinning (Advanced)",
-      "description": "Advanced SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs.",
-      "default": false,
-      "dependencies": [
-        "ResourcePatch"
-      ],
       "compatiblePackages": null,
       "options": []
     },
@@ -584,6 +548,14 @@
       "options": []
     },
     {
+      "name": "Remove Mod Toaster",
+      "description": "Removes Toast/Dialog show calls and common mod APK toast messages (Telegram, t.me, Mod by).",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Remove Rate Us Popup",
       "description": "Blocks common Rate Us / In-App Review dialogs and prompts.",
       "default": false,
@@ -634,16 +606,6 @@
     {
       "name": "SSL Bypass Ultimate",
       "description": "Powerful SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs.",
-      "default": false,
-      "dependencies": [
-        "ResourcePatch"
-      ],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "SSL bypass",
-      "description": "Powerful SSL and certificate pinning bypass for common libraries (OkHttp, TrustManager, etc.).",
       "default": false,
       "dependencies": [
         "ResourcePatch"
