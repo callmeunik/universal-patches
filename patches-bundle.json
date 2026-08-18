@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-18T05:10:39",
-  "description": "## [1.7.0](https://github.com/callmeunik/universal-patches/compare/v1.6.0...v1.7.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add powerful SSL bypass patch ([711f8d1](https://github.com/callmeunik/universal-patches/commit/711f8d17897597c08a75bd6b370c45d7e74a5865))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.7.0/patches-1.7.0.mpp",
+  "created_at": "2026-08-18T05:13:35",
+  "description": "## [1.8.0](https://github.com/callmeunik/universal-patches/compare/v1.7.0...v1.8.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add Change app name patch ([d592d70](https://github.com/callmeunik/universal-patches/commit/d592d70ae9c6268f6083ecc51e03f37bdc6414af))\n* Add Change package name patch ([c2a60d3](https://github.com/callmeunik/universal-patches/commit/c2a60d3d627ddea2ee883d3762a613bd5b162c53))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.8.0/patches-1.8.0.mpp",
   "signature_download_url": "",
-  "version": "1.7.0"
+  "version": "1.8.0"
 }

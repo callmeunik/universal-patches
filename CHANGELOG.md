@@ -1,3 +1,10 @@
+## [1.8.0](https://github.com/callmeunik/universal-patches/compare/v1.7.0...v1.8.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Change app name patch ([d592d70](https://github.com/callmeunik/universal-patches/commit/d592d70ae9c6268f6083ecc51e03f37bdc6414af))
+* Add Change package name patch ([c2a60d3](https://github.com/callmeunik/universal-patches/commit/c2a60d3d627ddea2ee883d3762a613bd5b162c53))
+
 ## [1.7.0](https://github.com/callmeunik/universal-patches/compare/v1.6.0...v1.7.0) (2026-08-18)
 
 ### ✨ New Features

@@ -1,7 +1,43 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "patches": [
+    {
+      "name": "Change app name",
+      "description": "Changes the app name shown on the launcher.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalAppName",
+          "title": "App name",
+          "description": "New name to show under the app icon.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "My App",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change package name",
+      "description": "Changes the package name in the manifest. May break some app features.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalPackageName",
+          "title": "New package name",
+          "description": "Example: com.myname.appclone",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "com.example.renamed",
+          "values": null
+        }
+      ]
+    },
     {
       "name": "Change version code",
       "description": "Changes android:versionCode.",
