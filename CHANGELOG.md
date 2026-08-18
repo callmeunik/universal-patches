@@ -1,3 +1,9 @@
+## [1.13.0](https://github.com/callmeunik/universal-patches/compare/v1.12.0...v1.13.0) (2026-08-18)
+
+### ✨ New Features
+
+* Strengthen Bypass uninstall popup patch ([8b01031](https://github.com/callmeunik/universal-patches/commit/8b0103157d4b57d2dd088064252e0efe54d9705d))
+
 ## [1.12.0](https://github.com/callmeunik/universal-patches/compare/v1.11.0...v1.12.0) (2026-08-18)
 
 ### ✨ New Features

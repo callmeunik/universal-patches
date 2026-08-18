@@ -15,14 +15,14 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.12.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.12.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;46 patches total
+> **[v1.13.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.13.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;46 patches total
 <details open>
 <summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;46 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Bypass uninstall popup](#bypass-uninstall-popup) | Bypasses uninstall-another-app popups. Default: MT Manager, NP Manager, HttpCanary, Apktool M, Lucky Patcher, etc. Add more in options. | • Extra / override package names |
+| [Bypass uninstall popup](#bypass-uninstall-popup) | Aggressively blocks uninstall-another-app popups and force-close on detect. | • Extra package names |
 | [Change app name](#change-app-name) | Changes the app name shown on the launcher. | • App name |
 | [Change package name](#change-package-name) | Changes the package name in the manifest. May break some app features. | • New package name |
 | [Change version code](#change-version-code) | Changes android:versionCode. | • Version code |

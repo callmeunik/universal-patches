@@ -1,21 +1,21 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "patches": [
     {
       "name": "Bypass uninstall popup",
-      "description": "Bypasses uninstall-another-app popups. Default: MT Manager, NP Manager, HttpCanary, Apktool M, Lucky Patcher, etc. Add more in options.",
+      "description": "Aggressively blocks uninstall-another-app popups and force-close on detect.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
       "options": [
         {
           "key": "hiddenPackages",
-          "title": "Extra / override package names",
-          "description": "Comma-separated. Defaults already include MT, NP, HttpCanary, Apktool M, Lucky Patcher, etc. Add more if needed.",
+          "title": "Extra package names",
+          "description": "Comma-separated extra packages to treat as not installed.",
           "required": false,
           "type": "kotlin.String",
-          "default": "bin.mt.plus,bin.mt.plus.canary,bin.mt.filemanager,com.np.manager,com.npmanager,cn.wq.npmanager,com.guoshi.httpcanary,com.guoshi.httpcanary.premium,com.network.proxy,com.minhui.networkcapture,com.minhui.networkcapture.pro,app.greyshirts.sslcapture,com.evezzon.sniffer,com.reqable.android,ru.maximoff.apktool,ru.maximoff.apktool.m,com.gmail.heagoo.apkeditor,com.gmail.heagoo.apkeditor.pro,com.gmail.heagoo.apkeditor.parser,raxod502.manjaro.apktool,com.dimonvideo.luckypatcher,com.chelpus.lackypatch,com.android.vending.billing.InAppBillingService.COIN,com.android.vending.billing.InAppBillingService.LCK,com.android.vending.billing.InAppBillingService.LOCK,com.zune.gameguardian,com.gameguardian,com.topjohnwu.magisk,io.github.vvb2060.magisk,org.lsposed.manager,de.robv.android.xposed.installer,com.saurik.substrate,me.weishu.exp,com.solohsu.android.edxp.manager,org.telegram.messenger.web,com.parallel.space.lite,com.lbe.parallel,com.cloneapp.parallelspace.dualspace,com.excelliance.multiaccounts,com.applisto.appcloner,com.kunkun.appmulti,bin.mt.termex,com.termux,com.nolanlawson.logcat,com.a0soft.gphone.app2sd,com.github.metacubex.clash.meta,com.github.kr328.clash,com.v2ray.ang,com.uvstudio.haiiandroid",
+          "default": "bin.mt.plus,bin.mt.plus.canary,bin.mt.filemanager,com.np.manager,com.npmanager,cn.wq.npmanager,com.guoshi.httpcanary,com.guoshi.httpcanary.premium,com.minhui.networkcapture,com.minhui.networkcapture.pro,ru.maximoff.apktool,ru.maximoff.apktool.m,com.gmail.heagoo.apkeditor,com.gmail.heagoo.apkeditor.pro,com.dimonvideo.luckypatcher,com.chelpus.lackypatch,com.android.vending.billing.InAppBillingService.COIN,com.android.vending.billing.InAppBillingService.LCK,com.topjohnwu.magisk,io.github.vvb2060.magisk,org.lsposed.manager,com.termux,com.parallel.space.lite,com.lbe.parallel,com.applisto.appcloner",
           "values": null
         }
       ]
