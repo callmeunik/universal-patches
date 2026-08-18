@@ -1,3 +1,9 @@
+## [1.14.0](https://github.com/callmeunik/universal-patches/compare/v1.13.0...v1.14.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Ads Regex Basic patch ([717a48a](https://github.com/callmeunik/universal-patches/commit/717a48a06aad84fd321ce3a866ac2174e3eb3de2))
+
 ## [1.13.0](https://github.com/callmeunik/universal-patches/compare/v1.12.0...v1.13.0) (2026-08-18)
 
 ### ✨ New Features

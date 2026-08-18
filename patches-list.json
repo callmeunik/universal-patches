@@ -1,7 +1,15 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "patches": [
+    {
+      "name": "Ads Regex Basic",
+      "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings).",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
     {
       "name": "Bypass uninstall popup",
       "description": "Aggressively blocks uninstall-another-app popups and force-close on detect.",
