@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "patches": [
     {
       "name": "Change version code",
@@ -69,6 +69,14 @@
           "values": null
         }
       ]
+    },
+    {
+      "name": "Enable debug build target",
+      "description": "Forces compatible BUILD_TARGET debug providers to debug=true.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
     },
     {
       "name": "Export all activities",
@@ -196,6 +204,14 @@
       "options": []
     },
     {
+      "name": "Remove internet permission",
+      "description": "Removes the INTERNET permission so the app cannot access the network at all. Blocks all trackers, analytics and ads from phoning home, but also disables any legitimate online features. Only enable for apps you want fully offline.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Remove share targets",
       "description": "Removes chooser/direct share targets.",
       "default": false,
@@ -210,6 +226,51 @@
       "dependencies": [],
       "compatiblePackages": null,
       "options": []
+    },
+    {
+      "name": "Spoof Android ID",
+      "description": "Spoofs Settings.Secure android_id reads.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalAndroidId",
+          "title": "Android ID",
+          "description": "16 hex characters.",
+          "required": true,
+          "type": "kotlin.String",
+          "default": "a1b2c3d4e5f67890",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Spoof Bluetooth identifiers",
+      "description": "Spoofs Bluetooth adapter name and MAC address reads.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalBluetoothName",
+          "title": "Bluetooth name",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Pixel Buds",
+          "values": null
+        },
+        {
+          "key": "universalBluetoothAddress",
+          "title": "Bluetooth MAC address",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "02:11:22:33:44:55",
+          "values": null
+        }
+      ]
     },
     {
       "name": "Spoof Play age signals",
@@ -281,6 +342,42 @@
       "dependencies": [],
       "compatiblePackages": null,
       "options": []
+    },
+    {
+      "name": "Spoof Wi-Fi identifiers",
+      "description": "Spoofs Wi-Fi SSID, BSSID, and MAC address reads.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalWifiSsid",
+          "title": "SSID",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "Pixel_WiFi",
+          "values": null
+        },
+        {
+          "key": "universalWifiBssid",
+          "title": "BSSID",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "02:00:00:12:34:56",
+          "values": null
+        },
+        {
+          "key": "universalWifiMac",
+          "title": "MAC address",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "02:00:00:65:43:21",
+          "values": null
+        }
+      ]
     },
     {
       "name": "Spoof build info",
@@ -378,6 +475,60 @@
       "dependencies": [],
       "compatiblePackages": null,
       "options": []
+    },
+    {
+      "name": "Spoof telephony IDs",
+      "description": "Spoofs IMEI, MEID, subscriber ID, SIM serial, and line number reads.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "universalImei",
+          "title": "IMEI",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "356938035643809",
+          "values": null
+        },
+        {
+          "key": "universalMeid",
+          "title": "MEID",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "A000004E4F4F50",
+          "values": null
+        },
+        {
+          "key": "universalSubscriberId",
+          "title": "Subscriber ID",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "310260000000000",
+          "values": null
+        },
+        {
+          "key": "universalSimSerial",
+          "title": "SIM serial",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "89014103211118510720",
+          "values": null
+        },
+        {
+          "key": "universalLineNumber",
+          "title": "Line number",
+          "description": null,
+          "required": true,
+          "type": "kotlin.String",
+          "default": "+15551234567",
+          "values": null
+        }
+      ]
     }
   ]
 }
