@@ -1,3 +1,10 @@
+## [1.6.0](https://github.com/callmeunik/universal-patches/compare/v1.5.0...v1.6.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Disable screenshots patch ([b41487d](https://github.com/callmeunik/universal-patches/commit/b41487dec4e97af3fb18e67c24910ed1671f064f))
+* Add Enable screenshots patch ([fdc475f](https://github.com/callmeunik/universal-patches/commit/fdc475fc05fcb48bd5202c41e1b434b1489b280a))
+
 ## [1.5.0](https://github.com/callmeunik/universal-patches/compare/v1.4.0...v1.5.0) (2026-08-18)
 
 ### ✨ New Features

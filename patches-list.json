@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "patches": [
     {
       "name": "Change version code",
@@ -55,6 +55,14 @@
       "options": []
     },
     {
+      "name": "Disable screenshots",
+      "description": "Blocks screenshots and screen recording using FLAG_SECURE on Activity onCreate.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Disable shake ads",
       "description": "Skips SensorManager.registerListener calls that can power shake-to-ad behavior.",
       "default": false,
@@ -91,6 +99,14 @@
     {
       "name": "Enable debug build target",
       "description": "Forces compatible BUILD_TARGET debug providers to debug=true.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Enable screenshots",
+      "description": "Removes FLAG_SECURE so screenshots and screen recording are allowed.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,

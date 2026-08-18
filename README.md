@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.5.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.5.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;35 patches total
+> **[v1.6.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.6.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;37 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;35 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;37 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -27,10 +27,12 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |
 | [Disable ad SDK calls](#disable-ad-sdk-calls) | No-ops common ad SDK load/show/init/fetch methods in bundled ad packages. |  |
 | [Disable clipboard access](#disable-clipboard-access) | Blocks app clipboard reads and writes. |  |
+| [Disable screenshots](#disable-screenshots) | Blocks screenshots and screen recording using FLAG_SECURE on Activity onCreate. |  |
 | [Disable shake ads](#disable-shake-ads) | Skips SensorManager.registerListener calls that can power shake-to-ad behavior. |  |
 | [Enable Android debugging](#enable-android-debugging) | Sets android:debuggable=true. |  |
 | [Enable ROM signature spoofing](#enable-rom-signature-spoofing) | Adds fake-signature permission and metadata. | • Certificate hex/signature |
 | [Enable debug build target](#enable-debug-build-target) | Forces compatible BUILD_TARGET debug providers to debug=true. |  |
+| [Enable screenshots](#enable-screenshots) | Removes FLAG_SECURE so screenshots and screen recording are allowed. |  |
 | [Export all activities](#export-all-activities) | Makes all activities exportable. |  |
 | [Export internal data documents provider](#export-internal-data-documents-provider) | Registers an extension DocumentsProvider for the app internal data directory. |  |
 | [Force dark theme](#force-dark-theme) | Forces common AppCompat, UiModeManager, and Configuration dark-mode checks to night mode. |  |
