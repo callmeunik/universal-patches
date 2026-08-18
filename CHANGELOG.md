@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/callmeunik/universal-patches/compare/v1.4.0...v1.5.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Remove link verification patch ([c23a7b4](https://github.com/callmeunik/universal-patches/commit/c23a7b4400b8c374ec6f8c91b4ad023c7481ca4b))
+
 ## [1.4.0](https://github.com/callmeunik/universal-patches/compare/v1.3.0...v1.4.0) (2026-08-18)
 
 ### ✨ New Features
