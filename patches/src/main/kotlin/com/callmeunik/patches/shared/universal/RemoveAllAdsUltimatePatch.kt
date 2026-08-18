@@ -11,9 +11,6 @@ import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import org.w3c.dom.Element
 
-/**
- * Shared ad keyword list
- */
 private val ultimateAdKeywords = listOf(
     "com.google.android.gms.ads",
     "com.google.ads",
@@ -71,23 +68,12 @@ private val ultimateAdKeywords = listOf(
 private fun String.isUltimateAdRelated(): Boolean =
     ultimateAdKeywords.any { contains(it, ignoreCase = true) }
 
-/**
- * Layer 1 – Manifest cleanup (MUST be declared before dependsOn)
- */
 private val removeAllAdsUltimateResourcePatch = resourcePatch(
     description = "Removes ad-related components, meta-data and permissions from the manifest.",
 ) {
     execute {
         document("AndroidManifest.xml").use { doc ->
-            val componentTags = listOf(
-                "activity",
-                "activity-alias",
-                "service",
-                "receiver",
-                "provider",
-            )
-
-            componentTags.forEach { tag ->
+            listOf("activity", "activity-alias", "service", "receiver", "provider").forEach { tag ->
                 val nodes = doc.getElementsByTagName(tag)
                 val toRemove = mutableListOf<org.w3c.dom.Node>()
                 for (i in 0 until nodes.length) {
@@ -135,13 +121,10 @@ private val removeAllAdsUltimateResourcePatch = resourcePatch(
     }
 }
 
-/**
- * Remove All Ads Ultimate
- */
 @Suppress("unused")
 val removeAllAdsUltimatePatch = bytecodePatch(
     name = "Remove All Ads Ultimate",
-    description = "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls without breaking apps.",
+    description = "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls.",
     default = false,
 ) {
     dependsOn(removeAllAdsUltimateResourcePatch)
@@ -164,15 +147,11 @@ val removeAllAdsUltimatePatch = bytecodePatch(
             "isloaded", "isready", "isadavailable", "canshow", "isshowing",
         )
 
-        fun String.shouldSkip(): Boolean =
-            skipNameParts.any { contains(it, ignoreCase = true) }
-
-        fun String.isSafeAdAction(): Boolean =
-            safeLoadShowHints.any { contains(it, ignoreCase = true) }
+        fun String.shouldSkip() = skipNameParts.any { contains(it, ignoreCase = true) }
+        fun String.isSafeAdAction() = safeLoadShowHints.any { contains(it, ignoreCase = true) }
 
         classDefForEach { classDef ->
-            val className = classDef.type
-            val isAdClass = className.isUltimateAdRelated()
+            val isAdClass = classDef.type.isUltimateAdRelated()
 
             mutableClassDefBy(classDef).methods.forEach { method ->
                 val methodName = method.name
@@ -181,16 +160,12 @@ val removeAllAdsUltimatePatch = bytecodePatch(
                 if (isAdClass && !methodName.shouldSkip()) {
                     when {
                         method.returnType == "Z" && methodName.isSafeAdAction() -> {
-                            method.addInstructions(
-                                0,
-                                """
-                                    const/4 v0, 0x0
-                                    return v0
-                                """.trimIndent(),
-                            )
+                            method.addInstructions(0, """
+                                const/4 v0, 0x0
+                                return v0
+                            """.trimIndent())
                             return@forEach
                         }
-
                         method.returnType == "V" && methodName.isSafeAdAction() -> {
                             method.addInstructions(0, "return-void")
                             return@forEach
@@ -205,7 +180,6 @@ val removeAllAdsUltimatePatch = bytecodePatch(
 
                     val defining = reference.definingClass
                     val refName = reference.name
-
                     if (refName.shouldSkip()) return@forEachIndexed
 
                     val isAdCall =
@@ -231,7 +205,6 @@ val removeAllAdsUltimatePatch = bytecodePatch(
                                 )
                             }
                         }
-
                         "V" -> {
                             if (refName.isSafeAdAction()) {
                                 method.replaceInstruction(index, "nop")
