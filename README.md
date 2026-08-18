@@ -15,13 +15,14 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.14.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.14.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;47 patches total
+> **[v1.15.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.15.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;48 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;47 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;48 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
+| [Ads Regex Advance](#ads-regex-advance) | Advanced universal ad SDK killer (load/show/init across major networks). |  |
 | [Ads Regex Basic](#ads-regex-basic) | Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings). |  |
 | [Bypass uninstall popup](#bypass-uninstall-popup) | Aggressively blocks uninstall-another-app popups and force-close on detect. | • Extra package names |
 | [Change app name](#change-app-name) | Changes the app name shown on the launcher. | • App name |
