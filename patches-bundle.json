@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-18T05:39:00",
-  "description": "## [1.11.0](https://github.com/callmeunik/universal-patches/compare/v1.10.0...v1.11.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add Control app permissions patch ([ce74a41](https://github.com/callmeunik/universal-patches/commit/ce74a41e3e69e7c7d2a7221417e4aad52bb32c1a))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.11.0/patches-1.11.0.mpp",
+  "created_at": "2026-08-18T06:01:24",
+  "description": "## [1.12.0](https://github.com/callmeunik/universal-patches/compare/v1.11.0...v1.12.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add Bypass uninstall popup with MT NP HttpCanary Apktool defaults ([ea59e82](https://github.com/callmeunik/universal-patches/commit/ea59e829b8aad94294b695a69eec6001dbda4412))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.12.0/patches-1.12.0.mpp",
   "signature_download_url": "",
-  "version": "1.11.0"
+  "version": "1.12.0"
 }

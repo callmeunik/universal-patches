@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/callmeunik/universal-patches/compare/v1.11.0...v1.12.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Bypass uninstall popup with MT NP HttpCanary Apktool defaults ([ea59e82](https://github.com/callmeunik/universal-patches/commit/ea59e829b8aad94294b695a69eec6001dbda4412))
+
 ## [1.11.0](https://github.com/callmeunik/universal-patches/compare/v1.10.0...v1.11.0) (2026-08-18)
 
 ### ✨ New Features
