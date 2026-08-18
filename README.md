@@ -94,4 +94,4 @@ See the [Morphe documentation](https://github.com/MorpheApp/morphe-documentation
 
 UserXYZ Patches are licensed under the [GNU General Public License v3.0](LICENSE)
 
-Trigger release after removing bad import
+Trigger release after removing
