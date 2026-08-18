@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -21,6 +21,14 @@
     {
       "name": "Advanced Analytics Killer",
       "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment and common trackers.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Bypass Emulator Detection",
+      "description": "Bypasses common emulator, Genymotion, BlueStacks and virtual device detection checks.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -48,6 +56,24 @@
           "required": false,
           "type": "kotlin.String",
           "default": "bin.mt.plus,bin.mt.plus.canary,bin.mt.filemanager,com.np.manager,com.npmanager,cn.wq.npmanager,com.guoshi.httpcanary,com.guoshi.httpcanary.premium,com.minhui.networkcapture,com.minhui.networkcapture.pro,ru.maximoff.apktool,ru.maximoff.apktool.m,com.gmail.heagoo.apkeditor,com.gmail.heagoo.apkeditor.pro,com.dimonvideo.luckypatcher,com.chelpus.lackypatch,com.android.vending.billing.InAppBillingService.COIN,com.android.vending.billing.InAppBillingService.LCK,com.topjohnwu.magisk,io.github.vvb2060.magisk,org.lsposed.manager,com.termux,com.parallel.space.lite,com.lbe.parallel,com.applisto.appcloner",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Change App Icon",
+      "description": "Changes the launcher icon resource name in the manifest.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "iconName",
+          "title": "Icon resource name",
+          "description": "Base name of the launcher icon (usually ic_launcher)",
+          "required": false,
+          "type": "kotlin.String",
+          "default": "ic_launcher",
           "values": null
         }
       ]
@@ -269,6 +295,14 @@
       ]
     },
     {
+      "name": "Disable Analytics & Tracking (Advanced)",
+      "description": "Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry, Bugsnag and other common trackers.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Disable Firebase / Analytics",
       "description": "Removes Firebase/analytics components and disables common logEvent / track calls.",
       "default": false,
@@ -301,6 +335,16 @@
       "description": "Removes Play Store update / installer related components and permissions from the manifest.",
       "default": false,
       "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Disable SSL Pinning (Advanced)",
+      "description": "Advanced SSL and certificate pinning bypass (OkHttp, TrustManager, Conscrypt) + trust user certs.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
       "compatiblePackages": null,
       "options": []
     },
@@ -520,8 +564,26 @@
       "options": []
     },
     {
+      "name": "Remove All Ads Ultimate",
+      "description": "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls without breaking apps.",
+      "default": false,
+      "dependencies": [
+        "ResourcePatch"
+      ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
       "name": "Remove Rate Us Popup",
       "description": "Blocks common Rate Us / In-App Review dialogs and prompts.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Remove Tracking Parameters from URLs",
+      "description": "Attempts to neutralize common tracking parameters (utm_*, fbclid, gclid, mc_eid, etc.) in URLs.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -532,24 +594,6 @@
       "description": "Removes common ad SDK permissions, services, providers, libraries, and metadata.",
       "default": false,
       "dependencies": [],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "Remove all ads",
-      "description": "Removes common ad SDK activities, services, receivers, providers, permissions and meta-data from the manifest.",
-      "default": false,
-      "dependencies": [],
-      "compatiblePackages": null,
-      "options": []
-    },
-    {
-      "name": "Remove all ads (powerful)",
-      "description": "Removes ad components from manifest and disables common ad SDK load/show/isLoaded calls.",
-      "default": false,
-      "dependencies": [
-        "ResourcePatch"
-      ],
       "compatiblePackages": null,
       "options": []
     },

@@ -1,3 +1,21 @@
+## [1.17.0](https://github.com/callmeunik/universal-patches/compare/v1.16.0...v1.17.0) (2026-08-18)
+
+### 🐛 Bug Fixes
+
+* fix Change App Icon patch stringOption import ([432eacb](https://github.com/callmeunik/universal-patches/commit/432eacbc3f1e7b371328189286a9249114c0b39e))
+* fix Remove All Ads Ultimate null dependency order ([585cf7a](https://github.com/callmeunik/universal-patches/commit/585cf7a0565d9eb3632d64fa6390d435d295141a))
+
+### ✨ New Features
+
+* add Bypass Emulator Detection patch ([8b879a9](https://github.com/callmeunik/universal-patches/commit/8b879a994237a6be332dc3160d1b6696d75ed9d1))
+* add Change App Icon patch ([1093ec2](https://github.com/callmeunik/universal-patches/commit/1093ec2467f37b5d604b7620bd2be84d051d41ba))
+* add Disable Analytics & Tracking (Advanced) patch ([a2de92b](https://github.com/callmeunik/universal-patches/commit/a2de92b3a26b986070826c27cea9b42114229b61))
+* add Disable SSL Pinning (Advanced) patch ([79d1b41](https://github.com/callmeunik/universal-patches/commit/79d1b41eb58874ccad63db044468c8a6cbea083b))
+* add Remove All Ads Ultimate patch (merged safe + powerful) ([8a10583](https://github.com/callmeunik/universal-patches/commit/8a10583f9dd0b03c10a601a93449eb9abf1d0043))
+* add Remove Tracking Parameters from URLs patch ([a176f72](https://github.com/callmeunik/universal-patches/commit/a176f72d87077354d954b86cec3143ca4c2f2a56))
+* fix Disable SSL Pinning Advanced resource handling ([d36d995](https://github.com/callmeunik/universal-patches/commit/d36d995e83d6d6507b9c1ee7f9554f1b2a33bb2c))
+* update all patches list ([2fd7fb7](https://github.com/callmeunik/universal-patches/commit/2fd7fb7ca2a80951ebcd732e5dfc3790ac1f03e7))
+
 ## [1.16.0](https://github.com/callmeunik/universal-patches/compare/v1.15.0...v1.16.0) (2026-08-18)
 
 ### ✨ New Features
