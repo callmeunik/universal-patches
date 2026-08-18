@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.19.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.19.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;56 patches total
+> **[v1.20.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.20.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;57 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;56 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;57 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -78,6 +78,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Spoof keystore security level](#spoof-keystore-security-level) | Forces key/security level getters to software/trusted-environment style values. |  |
 | [Spoof root of trust](#spoof-root-of-trust) | Spoofs common RootOfTrust verified boot getters. |  |
 | [Spoof telephony IDs](#spoof-telephony-ids) | Spoofs IMEI, MEID, subscriber ID, SIM serial, and line number reads. | • IMEI<br>• MEID<br>• Subscriber ID<br>• SIM serial<br>• Line number |
+| [Unlock Premium](#unlock-premium) | This patch can Unlock Premium, VIP, Pro, Gold, Subscription for Some App. |  |
 
 </details>
 

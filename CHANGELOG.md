@@ -1,3 +1,9 @@
+## [1.20.0](https://github.com/callmeunik/universal-patches/compare/v1.19.0...v1.20.0) (2026-08-18)
+
+### ✨ New Features
+
+* add Unlock Premium patch ([1f3d899](https://github.com/callmeunik/universal-patches/commit/1f3d89967fff9e6e88f563c1f8d2ad348e0cabde))
+
 ## [1.19.0](https://github.com/callmeunik/universal-patches/compare/v1.18.0...v1.19.0) (2026-08-18)
 
 ### ✨ New Features
