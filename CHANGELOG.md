@@ -1,3 +1,9 @@
+## [1.11.0](https://github.com/callmeunik/universal-patches/compare/v1.10.0...v1.11.0) (2026-08-18)
+
+### ✨ New Features
+
+* Add Control app permissions patch ([ce74a41](https://github.com/callmeunik/universal-patches/commit/ce74a41e3e69e7c7d2a7221417e4aad52bb32c1a))
+
 ## [1.10.0](https://github.com/callmeunik/universal-patches/compare/v1.9.0...v1.10.0) (2026-08-18)
 
 ### ✨ New Features

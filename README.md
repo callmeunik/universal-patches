@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.10.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.10.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;44 patches total
+> **[v1.11.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.11.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;45 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;44 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;45 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -25,6 +25,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Change app name](#change-app-name) | Changes the app name shown on the launcher. | • App name |
 | [Change package name](#change-package-name) | Changes the package name in the manifest. May break some app features. | • New package name |
 | [Change version code](#change-version-code) | Changes android:versionCode. | • Version code |
+| [Control app permissions](#control-app-permissions) | Removes selected permissions from the app. Turn ON only what you want to disable/remove. | • Remove INTERNET<br>• Remove CAMERA<br>• Remove RECORD_AUDIO<br>• Remove LOCATION (fine/coarse/background)<br>• Remove READ/WRITE CONTACTS<br>• Remove SMS / MMS<br>• Remove PHONE / CALL state<br>• Remove STORAGE / media files<br>• Remove CALENDAR<br>• Remove BODY_SENSORS<br>• Remove BLUETOOTH connect/scan<br>• Remove POST_NOTIFICATIONS<br>• Remove AD_ID / Ad services<br>• Remove ACTIVITY_RECOGNITION<br>• Remove REQUEST_INSTALL_PACKAGES<br>• Remove SYSTEM_ALERT_WINDOW<br>• Remove QUERY_ALL_PACKAGES |
 | [Disable Firebase / Analytics](#disable-firebase-analytics) | Removes Firebase/analytics components and disables common logEvent / track calls. |  |
 | [Disable PairIP license check](#disable-pairip-license-check) | Removes PairIP manifest components and bypasses common license, VM and background check calls. |  |
 | [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |

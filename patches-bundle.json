@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-18T05:25:04",
-  "description": "## [1.10.0](https://github.com/callmeunik/universal-patches/compare/v1.9.0...v1.10.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add Disable Firebase Analytics patch ([2ee9c37](https://github.com/callmeunik/universal-patches/commit/2ee9c37f3e691847d536cf1b744e8b7fd68d549c))\n* Add Hide root patch ([1662b71](https://github.com/callmeunik/universal-patches/commit/1662b7114dee4b95cdd32710e827e10e14187b42))\n* Add Spoof install source patch ([6c8b1b8](https://github.com/callmeunik/universal-patches/commit/6c8b1b8890a30397071de205cd69a95446375532))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.10.0/patches-1.10.0.mpp",
+  "created_at": "2026-08-18T05:39:00",
+  "description": "## [1.11.0](https://github.com/callmeunik/universal-patches/compare/v1.10.0...v1.11.0) (2026-08-18)\n\n### ✨ New Features\n\n* Add Control app permissions patch ([ce74a41](https://github.com/callmeunik/universal-patches/commit/ce74a41e3e69e7c7d2a7221417e4aad52bb32c1a))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.11.0/patches-1.11.0.mpp",
   "signature_download_url": "",
-  "version": "1.10.0"
+  "version": "1.11.0"
 }

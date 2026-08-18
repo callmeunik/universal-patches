@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "patches": [
     {
       "name": "Change app name",
@@ -52,6 +52,168 @@
           "required": true,
           "type": "kotlin.String",
           "default": "2147483647",
+          "values": null
+        }
+      ]
+    },
+    {
+      "name": "Control app permissions",
+      "description": "Removes selected permissions from the app. Turn ON only what you want to disable/remove.",
+      "default": false,
+      "dependencies": [],
+      "compatiblePackages": null,
+      "options": [
+        {
+          "key": "permRemoveInternet",
+          "title": "Remove INTERNET",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveCamera",
+          "title": "Remove CAMERA",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveRecordAudio",
+          "title": "Remove RECORD_AUDIO",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveLocation",
+          "title": "Remove LOCATION (fine/coarse/background)",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveContacts",
+          "title": "Remove READ/WRITE CONTACTS",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveSms",
+          "title": "Remove SMS / MMS",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemovePhone",
+          "title": "Remove PHONE / CALL state",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveStorage",
+          "title": "Remove STORAGE / media files",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveCalendar",
+          "title": "Remove CALENDAR",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveSensors",
+          "title": "Remove BODY_SENSORS",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveBluetooth",
+          "title": "Remove BLUETOOTH connect/scan",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveNotifications",
+          "title": "Remove POST_NOTIFICATIONS",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveAdId",
+          "title": "Remove AD_ID / Ad services",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": true,
+          "values": null
+        },
+        {
+          "key": "permRemoveActivityRecognition",
+          "title": "Remove ACTIVITY_RECOGNITION",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveInstallPackages",
+          "title": "Remove REQUEST_INSTALL_PACKAGES",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": true,
+          "values": null
+        },
+        {
+          "key": "permRemoveSystemAlert",
+          "title": "Remove SYSTEM_ALERT_WINDOW",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
+          "values": null
+        },
+        {
+          "key": "permRemoveQueryAllPackages",
+          "title": "Remove QUERY_ALL_PACKAGES",
+          "description": null,
+          "required": false,
+          "type": "kotlin.Boolean",
+          "default": false,
           "values": null
         }
       ]
