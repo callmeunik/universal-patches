@@ -1,3 +1,9 @@
+## [1.21.5](https://github.com/callmeunik/universal-patches/compare/v1.21.4...v1.21.5) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Unlock Premium null-safe and safer hints ([7ce5751](https://github.com/callmeunik/universal-patches/commit/7ce575165fa8315d225e76799af52339c20a45db))
+
 ## [1.21.4](https://github.com/callmeunik/universal-patches/compare/v1.21.3...v1.21.4) (2026-08-19)
 
 ### 🐛 Bug Fixes
