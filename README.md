@@ -15,15 +15,15 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.22.2](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
+> **[v1.22.3](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.3)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
 <details open>
 <summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;58 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
-| [Ads Regex Advance](#ads-regex-advance) | Advanced universal ad SDK killer (load/show/init across major networks). |  |
-| [Ads Regex Basic](#ads-regex-basic) | Basic universal ad killer (loadAd/showAd methods, GMS ads invokes). |  |
+| [Ads Regex Advance](#ads-regex-advance) | Low-memory ad SDK killer (only ad packages, no full-app scan). |  |
+| [Ads Regex Basic](#ads-regex-basic) | Low-memory basic ad killer (ad packages only). |  |
 | [Bypass Emulator Detection](#bypass-emulator-detection) | Bypasses common emulator, Genymotion, BlueStacks and virtual device detection checks. |  |
 | [Bypass Mandatory Login](#bypass-mandatory-login) | Bypasses common mandatory login and isLoggedIn checks. |  |
 | [Bypass uninstall popup](#bypass-uninstall-popup) | Blocks uninstall-another-app popups. Default tools: MT, NP, HttpCanary, Apktool, Lucky Patcher, etc. | • Extra package names |

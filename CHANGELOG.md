@@ -1,3 +1,10 @@
+## [1.22.3](https://github.com/callmeunik/universal-patches/compare/v1.22.2...v1.22.3) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Low-memory Ads Regex Basic and Advance (ad classes only) ([c59fbcf](https://github.com/callmeunik/universal-patches/commit/c59fbcfbc41c08a7e2eebbfba23340ae59c9b12e))
+* Low-memory Ads Regex Basic and Advance (ad classes only) ([816b079](https://github.com/callmeunik/universal-patches/commit/816b079e9f61e5b062828d30584b971552198d87))
+
 ## [1.22.2](https://github.com/callmeunik/universal-patches/compare/v1.22.1...v1.22.2) (2026-08-19)
 
 ### 🐛 Bug Fixes

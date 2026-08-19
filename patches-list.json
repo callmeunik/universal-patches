@@ -1,10 +1,10 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.22.2",
+  "version": "1.22.3",
   "patches": [
     {
       "name": "Ads Regex Advance",
-      "description": "Advanced universal ad SDK killer (load/show/init across major networks).",
+      "description": "Low-memory ad SDK killer (only ad packages, no full-app scan).",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -12,7 +12,7 @@
     },
     {
       "name": "Ads Regex Basic",
-      "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes).",
+      "description": "Low-memory basic ad killer (ad packages only).",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,

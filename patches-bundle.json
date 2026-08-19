@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-19T06:12:54",
-  "description": "## [1.22.2](https://github.com/callmeunik/universal-patches/compare/v1.22.1...v1.22.2) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Play Integrity Bypass without nop ([e63f356](https://github.com/callmeunik/universal-patches/commit/e63f356204b5f583480ab48c33547981fd0e0770))\n* Safe Enable screenshots without nop ([1cecade](https://github.com/callmeunik/universal-patches/commit/1cecadefd41135c3b6360b8b4ed5909aae670ab5))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.22.2/patches-1.22.2.mpp",
+  "created_at": "2026-08-19T06:22:01",
+  "description": "## [1.22.3](https://github.com/callmeunik/universal-patches/compare/v1.22.2...v1.22.3) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Low-memory Ads Regex Basic and Advance (ad classes only) ([c59fbcf](https://github.com/callmeunik/universal-patches/commit/c59fbcfbc41c08a7e2eebbfba23340ae59c9b12e))\n* Low-memory Ads Regex Basic and Advance (ad classes only) ([816b079](https://github.com/callmeunik/universal-patches/commit/816b079e9f61e5b062828d30584b971552198d87))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.22.3/patches-1.22.3.mpp",
   "signature_download_url": "",
-  "version": "1.22.2"
+  "version": "1.22.3"
 }
