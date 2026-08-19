@@ -2,23 +2,21 @@ package com.callmeunik.patches.shared.universal
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructionsOrNull
-import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
-import com.android.tools.smali.dexlib2.Opcode
-import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
 /**
- * Remove Mod Toaster
- * 1) Regex-style: nop all Toast.show() / Dialog.show()
- * 2) Extra: kill toasts near Telegram / Mod-by strings
+ * Remove Mod Toaster — fixed:
+ * - No replaceInstruction("nop") (Morphe smali crash)
+ * - Null-safe
+ * - Kills methods that show mod / Telegram / channel promo toasts
  */
 @Suppress("unused")
 val removeModToasterPatch = bytecodePatch(
     name = "Remove Mod Toaster",
-    description = "Removes Toast/Dialog show calls and common mod APK toast messages (Telegram, t.me, Mod by).",
+    description = "Removes common mod APK toast / promo dialogs (Telegram, t.me, Mod by, channel joins).",
     default = false,
 ) {
     execute {
@@ -30,92 +28,75 @@ val removeModToasterPatch = bytecodePatch(
             "apkpure", "happymod", "mod apk",
             "premium unlocked", "pro unlocked",
             "credits to", "thanks to", "visit us",
+            "modded apk", "patched by",
         )
 
-        fun String.hasModToast() = toastHints.any { contains(it, ignoreCase = true) }
+        fun String.hasModToast() =
+            toastHints.any { contains(it, ignoreCase = true) }
 
         classDefForEach { classDef ->
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val instructions = method.instructionsOrNull?.toList() ?: return@forEach
+                // Null implementation guard
+                if (method.instructionsOrNull == null) return@forEach
 
-                // =========================================================
-                // A) Toaster Regex style
-                // invoke-virtual {.*}, Landroid/widget/Toast;->show()V  → nop
-                // invoke-virtual {.*}, Landroid/app/Dialog;->show()V    → nop
-                // =========================================================
-                instructions.forEachIndexed { index, instruction ->
-                    val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                        ?: return@forEachIndexed
+                val methodName = method.name
+                val instructions = method.instructionsOrNull!!.toList()
 
-                    val def = ref.definingClass
-                    val name = ref.name
-                    val ret = ref.returnType
+                // ---- A) Method name looks like mod / promo toast ----
+                val nameLooksPromo =
+                    methodName.contains("toast", true) ||
+                        methodName.contains("telegram", true) ||
+                        methodName.contains("credit", true) ||
+                        methodName.contains("promo", true) ||
+                        methodName.contains("channel", true) ||
+                        methodName.contains("banner", true) ||
+                        methodName.contains("announce", true)
 
-                    // Toast.show()V
-                    if (def == "Landroid/widget/Toast;" && name == "show" && ret == "V") {
-                        method.replaceInstruction(index, "nop")
-                        return@forEachIndexed
-                    }
-
-                    // Dialog.show()V
-                    if (def == "Landroid/app/Dialog;" && name == "show" && ret == "V") {
-                        method.replaceInstruction(index, "nop")
-                        return@forEachIndexed
-                    }
-
-                    // Subclasses also (AppCompatDialog, AlertDialog, etc.)
-                    if (name == "show" && ret == "V" &&
-                        (def.contains("Toast") || def.contains("Dialog"))
-                    ) {
-                        method.replaceInstruction(index, "nop")
-                    }
+                if (method.returnType == "V" &&
+                    nameLooksPromo &&
+                    (methodName.hasModToast() ||
+                        methodName.contains("mod", true) ||
+                        methodName.contains("telegram", true) ||
+                        methodName.contains("credit", true))
+                ) {
+                    method.addInstructions(0, "return-void")
+                    return@forEach
                 }
 
-                // =========================================================
-                // B) Extra: methods with Telegram / Mod strings
-                // =========================================================
+                // ---- B) Method body contains mod / telegram strings ----
                 val hasModString = instructions.any {
                     val s = ((it as? ReferenceInstruction)?.reference as? StringReference)?.string
                         ?: return@any false
                     s.hasModToast()
                 }
 
-                if (hasModString) {
-                    instructions.forEachIndexed { index, instruction ->
-                        val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                            ?: return@forEachIndexed
+                if (!hasModString) return@forEach
 
-                        // Toast.makeText → nop + clear move-result-object
-                        if (ref.definingClass.contains("Toast") && ref.name == "makeText") {
-                            method.replaceInstruction(index, "nop")
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null &&
-                                (next.opcode == Opcode.MOVE_RESULT_OBJECT ||
-                                    next.opcode == Opcode.MOVE_RESULT)
-                            ) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x0",
-                                )
-                            }
-                        }
-                    }
+                // Check if method actually shows Toast or Dialog
+                val showsUi = instructions.any {
+                    val ref = (it as? ReferenceInstruction)?.reference as? MethodReference
+                        ?: return@any false
+                    val def = ref.definingClass
+                    val name = ref.name
+                    (def.contains("Toast") && (name == "show" || name == "makeText")) ||
+                        (def.contains("Dialog") && name == "show") ||
+                        (def.contains("Snackbar") && name == "show") ||
+                        (def.contains("AlertDialog") && (name == "show" || name == "create"))
                 }
 
-                // =========================================================
-                // C) Method name looks like showModToast / showTelegram
-                // =========================================================
-                val methodName = method.name
-                if (
-                    (methodName.contains("toast", true) ||
-                        methodName.contains("telegram", true) ||
-                        methodName.contains("credit", true) ||
-                        methodName.contains("promo", true)) &&
-                    (methodName.hasModToast() || methodName.contains("mod", true))
+                // Void method that builds mod toast/dialog → kill entire method
+                if (method.returnType == "V" && showsUi) {
+                    method.addInstructions(0, "return-void")
+                    return@forEach
+                }
+
+                // Named show* with mod strings
+                if (method.returnType == "V" &&
+                    (methodName.startsWith("show") ||
+                        methodName.contains("display", true) ||
+                        methodName.contains("popup", true))
                 ) {
-                    if (method.returnType == "V") {
-                        method.addInstructions(0, "return-void")
-                    }
+                    method.addInstructions(0, "return-void")
                 }
             }
         }
