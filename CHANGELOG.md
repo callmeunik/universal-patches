@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/callmeunik/universal-patches/compare/v1.22.0...v1.22.1) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Ads Regex Basic without nop (stable) ([fac3f56](https://github.com/callmeunik/universal-patches/commit/fac3f56cb772475958dfc4d544babe8880e2b998))
+* Fix Bypass uninstall popup without nop (stable) ([c6c52e4](https://github.com/callmeunik/universal-patches/commit/c6c52e49c857198baa85fbc38ee545860fe478c2))
+
 ## [1.22.0](https://github.com/callmeunik/universal-patches/compare/v1.21.6...v1.22.0) (2026-08-19)
 
 ### ✨ New Features

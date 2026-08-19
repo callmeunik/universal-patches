@@ -15,7 +15,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.22.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
+> **[v1.22.1](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
 <details open>
 <summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;58 patches</summary>
 <br>
@@ -23,10 +23,10 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
 |----------|----------------|-----------|
 | [Ads Regex Advance](#ads-regex-advance) | Advanced universal ad SDK killer (load/show/init across major networks). |  |
-| [Ads Regex Basic](#ads-regex-basic) | Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings). |  |
+| [Ads Regex Basic](#ads-regex-basic) | Basic universal ad killer (loadAd/showAd methods, GMS ads invokes). |  |
 | [Bypass Emulator Detection](#bypass-emulator-detection) | Bypasses common emulator, Genymotion, BlueStacks and virtual device detection checks. |  |
 | [Bypass Mandatory Login](#bypass-mandatory-login) | Bypasses common mandatory login and isLoggedIn checks. |  |
-| [Bypass uninstall popup](#bypass-uninstall-popup) | Aggressively blocks uninstall-another-app popups and force-close on detect. | • Extra package names |
+| [Bypass uninstall popup](#bypass-uninstall-popup) | Blocks uninstall-another-app popups. Default tools: MT, NP, HttpCanary, Apktool, Lucky Patcher, etc. | • Extra package names |
 | [Change App Icon](#change-app-icon) | Changes the launcher icon resource name in the manifest. | • Icon resource name |
 | [Change app name](#change-app-name) | Changes the app name shown on the launcher. | • App name |
 | [Change package name](#change-package-name) | Changes the package name in the manifest. May break some app features. | • New package name |

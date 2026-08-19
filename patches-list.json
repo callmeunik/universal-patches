@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.22.0",
+  "version": "1.22.1",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -12,7 +12,7 @@
     },
     {
       "name": "Ads Regex Basic",
-      "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings).",
+      "description": "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes).",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -36,7 +36,7 @@
     },
     {
       "name": "Bypass uninstall popup",
-      "description": "Aggressively blocks uninstall-another-app popups and force-close on detect.",
+      "description": "Blocks uninstall-another-app popups. Default tools: MT, NP, HttpCanary, Apktool, Lucky Patcher, etc.",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
@@ -44,7 +44,7 @@
         {
           "key": "hiddenPackages",
           "title": "Extra package names",
-          "description": "Comma-separated extra packages to treat as not installed.",
+          "description": "Comma-separated packages to treat as NOT installed.",
           "required": false,
           "type": "kotlin.String",
           "default": "bin.mt.plus,bin.mt.plus.canary,bin.mt.filemanager,com.np.manager,com.npmanager,cn.wq.npmanager,com.guoshi.httpcanary,com.guoshi.httpcanary.premium,com.minhui.networkcapture,com.minhui.networkcapture.pro,ru.maximoff.apktool,ru.maximoff.apktool.m,com.gmail.heagoo.apkeditor,com.gmail.heagoo.apkeditor.pro,com.dimonvideo.luckypatcher,com.chelpus.lackypatch,com.android.vending.billing.InAppBillingService.COIN,com.android.vending.billing.InAppBillingService.LCK,com.topjohnwu.magisk,io.github.vvb2060.magisk,org.lsposed.manager,com.termux,com.parallel.space.lite,com.lbe.parallel,com.applisto.appcloner",
