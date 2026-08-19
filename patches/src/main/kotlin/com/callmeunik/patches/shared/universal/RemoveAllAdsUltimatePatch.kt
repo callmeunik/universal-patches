@@ -122,7 +122,7 @@ private val removeAllAdsUltimateResourcePatch = resourcePatch(
 
 @Suppress("unused")
 val removeAllAdsUltimatePatch = bytecodePatch(
-    name = "Remove All Ads Ultimate",
+    name = "Ads Remove Ultimate",
     description = "Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls.",
     default = false,
 ) {
