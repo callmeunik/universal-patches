@@ -4,6 +4,7 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructionsOrNull
 import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
+import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
@@ -11,10 +12,7 @@ import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
 /**
- * AdsRegexBasic — smali "Basic Ads Regex" style blockers as a Morphe bytecode patch.
- * - Kills loadAd / showAd / renderAd style methods
- * - Nops common GMS / ads SDK invokes
- * - Neutralizes common ad URL / AdMob id strings where possible
+ * AdsRegexBasic — fixed: skip methods with null implementation.
  */
 @Suppress("unused")
 val adsRegexBasicPatch = bytecodePatch(
@@ -54,16 +52,14 @@ val adsRegexBasicPatch = bytecodePatch(
             "setAdListener", "reportAdClicked", "reportAdImpression",
         )
 
-        val adUrlHints = listOf(
-            "admob", "adservice", "doubleclick", "googlesyndication",
-            "googleads", "pagead", "ads.", ".ads.", "-ads.",
-            "adcolony", "applovin", "applvn", "unityads", "vungle",
-            "mopub", "inmobi", "chartboost", "tapjoy", "flurry",
-            "appsflyer", "crashlytics", "scorecardresearch",
-            "startappservice", "supersonicads", "moatads",
-            "amazon-ads", "adwhirl", "adsafeprotected",
-            "61.145.124.238", "ca-app-pub-",
-        )
+        fun hasImpl(method: app.morphe.patcher.util.proxy.mutableTypes.MutableMethod): Boolean {
+            return method.instructionsOrNull != null
+        }
+
+        fun isAbstractOrNative(accessFlags: Int): Boolean {
+            return AccessFlags.ABSTRACT.isSet(accessFlags) ||
+                AccessFlags.NATIVE.isSet(accessFlags)
+        }
 
         classDefForEach { classDef ->
             val className = classDef.type
@@ -85,17 +81,18 @@ val adsRegexBasicPatch = bytecodePatch(
                     className.contains("facebook/ads", true)
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val methodName = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                // CRITICAL FIX: never touch methods without implementation
+                if (isAbstractOrNative(method.accessFlags)) return@forEach
+                if (!hasImpl(method)) return@forEach
 
-                // ---- 1) Method bodies: loadAd/showAd/... ----
+                val methodName = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
                 val nameHit = adMethodNames.any {
                     methodName.equals(it, true) || methodName.contains(it, true)
                 }
 
-                if (nameHit && !method.accessFlags.toString().contains("ABSTRACT") &&
-                    !method.accessFlags.toString().contains("NATIVE")
-                ) {
+                if (nameHit) {
                     when (method.returnType) {
                         "V" -> {
                             method.addInstructions(0, "return-void")
@@ -114,7 +111,6 @@ val adsRegexBasicPatch = bytecodePatch(
                     }
                 }
 
-                // Ad class: isLoaded / isLoading → false
                 if (isAdClass && method.returnType == "Z" &&
                     (methodName.contains("isLoaded", true) ||
                         methodName.contains("isLoading", true) ||
@@ -131,9 +127,6 @@ val adsRegexBasicPatch = bytecodePatch(
                     return@forEach
                 }
 
-                if (instructions == null) return@forEach
-
-                // ---- 2) Nop ad-related invokes ----
                 instructions.forEachIndexed { index, instruction ->
                     val reference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
@@ -155,8 +148,7 @@ val adsRegexBasicPatch = bytecodePatch(
                             def.contains("facebook/ads", true)
 
                     val isAdInvoke =
-                        isGmsAd ||
-                            adInvokeHints.any { name.contains(it, true) }
+                        isGmsAd || adInvokeHints.any { name.contains(it, true) }
 
                     if (isAdInvoke && ret == "V") {
                         method.replaceInstruction(index, "nop")
@@ -173,35 +165,11 @@ val adsRegexBasicPatch = bytecodePatch(
                     }
                 }
 
-                // ---- 3) Ad URL / AdMob unit id strings → harmless ----
-                instructions.forEachIndexed { index, instruction ->
-                    val str =
-                        ((instruction as? ReferenceInstruction)?.reference as? StringReference)
-                            ?.string ?: return@forEachIndexed
-
-                    val lower = str.lowercase()
-                    val isAdString =
-                        adUrlHints.any { lower.contains(it) } ||
-                            str.matches(Regex("ca-app-pub-\\d{16}/\\d{10}"))
-
-                    if (isAdString) {
-                        // Cannot always rewrite string pool safely here;
-                        // neutralize following boolean loads if any
-                        val next = instructions.getOrNull(index + 1)
-                        // leave string; method/invoke kills above do most work
-                    }
-                }
-
-                // ---- 4) AdActivity-style onCreate: skip early ad branch if pattern simple ----
+                // Safer AdActivity handling: only early-return if class name is AdActivity
                 if (methodName == "onCreate" &&
                     method.returnType == "V" &&
-                    (className.contains("AdActivity", true) ||
-                        instructions.any {
-                            ((it as? ReferenceInstruction)?.reference as? StringReference)
-                                ?.string?.contains("AdActivity") == true
-                        })
+                    className.contains("AdActivity", true)
                 ) {
-                    // Force quick return to avoid ad UI (may break some ad activities only)
                     method.addInstructions(0, "return-void")
                 }
             }
