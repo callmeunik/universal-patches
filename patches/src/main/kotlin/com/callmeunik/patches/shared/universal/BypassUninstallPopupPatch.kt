@@ -11,33 +11,46 @@ import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
+/**
+ * Bypass uninstall popup — fixed:
+ * - No replaceInstruction("nop") → no Collection is empty crash
+ * - Null implementation guard
+ * - Custom package list still supported
+ * - Detect methods → false / return-void
+ */
 @Suppress("unused")
 val bypassUninstallPopupPatch = bytecodePatch(
     name = "Bypass uninstall popup",
-    description = "Aggressively blocks uninstall-another-app popups and force-close on detect.",
+    description = "Blocks uninstall-another-app popups. Default tools: MT, NP, HttpCanary, Apktool, Lucky Patcher, etc.",
     default = false,
 ) {
     val customPackages by stringOption(
         key = "hiddenPackages",
         default = listOf(
+            // MT Manager
             "bin.mt.plus",
             "bin.mt.plus.canary",
             "bin.mt.filemanager",
+            // NP Manager
             "com.np.manager",
             "com.npmanager",
             "cn.wq.npmanager",
+            // HttpCanary / capture
             "com.guoshi.httpcanary",
             "com.guoshi.httpcanary.premium",
             "com.minhui.networkcapture",
             "com.minhui.networkcapture.pro",
+            // Apktool / editors
             "ru.maximoff.apktool",
             "ru.maximoff.apktool.m",
             "com.gmail.heagoo.apkeditor",
             "com.gmail.heagoo.apkeditor.pro",
+            // Lucky Patcher
             "com.dimonvideo.luckypatcher",
             "com.chelpus.lackypatch",
             "com.android.vending.billing.InAppBillingService.COIN",
             "com.android.vending.billing.InAppBillingService.LCK",
+            // Other
             "com.topjohnwu.magisk",
             "io.github.vvb2060.magisk",
             "org.lsposed.manager",
@@ -47,7 +60,7 @@ val bypassUninstallPopupPatch = bytecodePatch(
             "com.applisto.appcloner",
         ).joinToString(","),
         title = "Extra package names",
-        description = "Comma-separated extra packages to treat as not installed.",
+        description = "Comma-separated packages to treat as NOT installed.",
         required = false,
     )
 
@@ -65,48 +78,29 @@ val bypassUninstallPopupPatch = bytecodePatch(
             "lsposed", "frida", "gameguardian", "mod menu", "cheat",
         )
 
+        val detectNameHints = listOf(
+            "isinstalled", "isappinstalled", "ispackageinstalled",
+            "checkinstalled", "haspackage", "islucky", "ischeat", "ismod",
+            "detectapp", "detecttool", "shouldblock", "needuninstall",
+            "showuninstall", "ispackageexist", "packageexists",
+            "checktools", "checkenv", "securitycheck", "anticheat", "antimod",
+        )
+
+        fun String.hasDetectName(): Boolean {
+            val lower = lowercase().replace("_", "")
+            return detectNameHints.any { lower.contains(it) }
+        }
+
         classDefForEach { classDef ->
             mutableClassDefBy(classDef).methods.forEach { method ->
+                // ERROR-FREE: skip null implementation
+                if (method.instructionsOrNull == null) return@forEach
+
                 val methodName = method.name
-                val instructions = method.instructionsOrNull?.toList() ?: return@forEach
+                val instructions = method.instructionsOrNull!!.toList()
 
-                // Collect strings in this method
-                val strings = instructions.mapNotNull {
-                    ((it as? ReferenceInstruction)?.reference as? StringReference)?.string
-                }
-                val text = strings.joinToString("\n").lowercase()
-
-                val mentionsUserPkg = userPackages.any { pkg ->
-                    strings.any { it.equals(pkg, true) || it.contains(pkg, true) }
-                }
-                val mentionsBlockText = blockHints.any { text.contains(it) }
-                val sensitive = mentionsUserPkg || mentionsBlockText
-
-                // ---------- 1) Detection method names → always safe ----------
-                val detectName =
-                    methodName.contains("isInstalled", true) ||
-                        methodName.contains("isAppInstalled", true) ||
-                        methodName.contains("isPackageInstalled", true) ||
-                        methodName.contains("packageInstalled", true) ||
-                        methodName.contains("checkInstalled", true) ||
-                        methodName.contains("hasPackage", true) ||
-                        methodName.contains("isLucky", true) ||
-                        methodName.contains("isCheat", true) ||
-                        methodName.contains("isMod", true) ||
-                        methodName.contains("detectApp", true) ||
-                        methodName.contains("detectTool", true) ||
-                        methodName.contains("shouldBlock", true) ||
-                        methodName.contains("needUninstall", true) ||
-                        methodName.contains("showUninstall", true) ||
-                        methodName.contains("isPackageExist", true) ||
-                        methodName.contains("packageExists", true) ||
-                        methodName.contains("checkTools", true) ||
-                        methodName.contains("checkEnv", true) ||
-                        methodName.contains("securityCheck", true) ||
-                        methodName.contains("antiCheat", true) ||
-                        methodName.contains("antiMod", true)
-
-                if (detectName) {
+                // ---- 1) Detection method names → safe result ----
+                if (methodName.hasDetectName()) {
                     when (method.returnType) {
                         "Z" -> {
                             method.addInstructions(
@@ -135,67 +129,37 @@ val bypassUninstallPopupPatch = bytecodePatch(
                     }
                 }
 
+                // ---- 2) Collect strings in method ----
+                val strings = instructions.mapNotNull {
+                    ((it as? ReferenceInstruction)?.reference as? StringReference)?.string
+                }
+                val text = strings.joinToString("\n").lowercase()
+
+                val mentionsUserPkg = userPackages.any { pkg ->
+                    strings.any { it.equals(pkg, true) || it.contains(pkg, true) }
+                }
+                val mentionsBlockText = blockHints.any { text.contains(it) }
+                val sensitive = mentionsUserPkg || mentionsBlockText
+
                 if (!sensitive) return@forEach
 
-                // ---------- 2) Sensitive methods: kill dialog / exit / finish ----------
+                // ---- 3) Sensitive method: force boolean results false (NO nop) ----
                 instructions.forEachIndexed { index, instruction ->
                     val reference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
                             ?: return@forEachIndexed
 
-                    val def = reference.definingClass
                     val name = reference.name
                     val ret = reference.returnType
                     val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
 
-                    // Dialog / AlertDialog show → nop
-                    if ((def.contains("AlertDialog") ||
-                            def.contains("Dialog;") ||
-                            def.contains("DialogBuilder") ||
-                            def.contains("MaterialAlertDialog") ||
-                            def.contains("androidx/appcompat/app/AlertDialog")
-                            ) &&
-                        (name == "show" || name == "create")
-                    ) {
-                        method.replaceInstruction(index, "nop")
-                    }
-
-                    // Toast about uninstall — optional nop show
-                    if (def == "Landroid/widget/Toast;" && name == "show") {
-                        method.replaceInstruction(index, "nop")
-                    }
-
-                    // Activity.finish / finishAffinity → nop (stop close)
-                    if ((def == "Landroid/app/Activity;" ||
-                            def.contains("Activity;")
-                            ) &&
-                        (name == "finish" ||
-                            name == "finishAffinity" ||
-                            name == "finishAndRemoveTask")
-                    ) {
-                        method.replaceInstruction(index, "nop")
-                    }
-
-                    // System.exit / killProcess → nop
-                    if (def == "Ljava/lang/System;" && name == "exit") {
-                        method.replaceInstruction(index, "nop")
-                    }
-                    if (def == "Landroid/os/Process;" &&
-                        (name == "killProcess" || name == "myPid")
-                    ) {
-                        // only kill killProcess invoke
-                        if (name == "killProcess") {
-                            method.replaceInstruction(index, "nop")
-                        }
-                    }
-
-                    // Boolean results in sensitive method → false
                     if (ret == "Z" &&
                         (name == "exists" ||
                             name == "contains" ||
                             name.startsWith("is") ||
                             name.contains("install", true) ||
-                            name.contains("detect", true))
+                            name.contains("detect", true) ||
+                            name.contains("found", true))
                     ) {
                         if (next != null && next.opcode == Opcode.MOVE_RESULT) {
                             method.replaceInstruction(
@@ -204,16 +168,16 @@ val bypassUninstallPopupPatch = bytecodePatch(
                             )
                         }
                     }
-
-                    // getPackageInfo / getApplicationInfo in sensitive method:
-                    // cannot easily throw; boolean paths above cover many apps
                 }
 
-                // ---------- 3) Whole void check/show method in sensitive context ----------
+                // ---- 4) Sensitive void check/show/block methods → return-void ----
+                // Avoid killing Activity lifecycle (onCreate/onResume/onStart)
                 if (method.returnType == "V" &&
                     methodName != "onCreate" &&
                     methodName != "onResume" &&
                     methodName != "onStart" &&
+                    methodName != "onPause" &&
+                    methodName != "onDestroy" &&
                     (methodName.contains("check", true) ||
                         methodName.contains("block", true) ||
                         methodName.contains("detect", true) ||
@@ -221,7 +185,10 @@ val bypassUninstallPopupPatch = bytecodePatch(
                         methodName.contains("show", true) ||
                         methodName.contains("warn", true) ||
                         methodName.contains("secure", true) ||
-                        methodName.contains("guard", true))
+                        methodName.contains("guard", true) ||
+                        methodName.contains("dialog", true) ||
+                        methodName.contains("popup", true) ||
+                        methodName.contains("alert", true))
                 ) {
                     method.addInstructions(0, "return-void")
                 }
