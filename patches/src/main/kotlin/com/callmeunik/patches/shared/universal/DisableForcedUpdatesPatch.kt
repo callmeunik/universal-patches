@@ -10,9 +10,6 @@ import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
-/**
- * Disable Forced Updates — blocks common version-check / force-update logic.
- */
 @Suppress("unused")
 val disableForcedUpdatesPatch = bytecodePatch(
     name = "Disable Forced Updates",
@@ -36,17 +33,21 @@ val disableForcedUpdatesPatch = bytecodePatch(
 
         classDefForEach { classDef ->
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val name = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                if (method.instructionsOrNull == null) return@forEach
 
-                // Method itself looks like update check → force false / return-void
+                val name = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
                 if (!name.shouldSkip() && name.hasUpdateHint()) {
                     when (method.returnType) {
                         "Z" -> {
-                            method.addInstructions(0, """
-                                const/4 v0, 0x0
-                                return v0
-                            """.trimIndent())
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x0
+                                    return v0
+                                """.trimIndent(),
+                            )
                             return@forEach
                         }
                         "V" -> {
@@ -56,50 +57,51 @@ val disableForcedUpdatesPatch = bytecodePatch(
                     }
                 }
 
-                if (instructions == null) return@forEach
-
-                // Call-sites that return boolean
+                // Call-sites: boolean only — NO nop
                 instructions.forEachIndexed { index, instruction ->
-                    val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                        ?: return@forEachIndexed
+                    val ref =
+                        (instruction as? ReferenceInstruction)?.reference as? MethodReference
+                            ?: return@forEachIndexed
 
                     if (ref.name.shouldSkip()) return@forEachIndexed
-                    if (!ref.name.hasUpdateHint() && !ref.definingClass.hasUpdateHint()) return@forEachIndexed
+                    if (!ref.name.hasUpdateHint() && !ref.definingClass.hasUpdateHint()) {
+                        return@forEachIndexed
+                    }
 
-                    when (ref.returnType) {
-                        "Z" -> {
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null && next.opcode == Opcode.MOVE_RESULT) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x0"
-                                )
-                            }
+                    if (ref.returnType == "Z") {
+                        val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
+                        if (next != null && next.opcode == Opcode.MOVE_RESULT) {
+                            method.replaceInstruction(
+                                index + 1,
+                                "const/4 v${next.registerA}, 0x0",
+                            )
                         }
-                        "V" -> method.replaceInstruction(index, "nop")
                     }
                 }
 
-                // Common string-based version check
                 val hasVersionString = instructions.any {
                     val s = ((it as? ReferenceInstruction)?.reference as? StringReference)?.string
                         ?: return@any false
-                    s.contains("update", true) || s.contains("version", true) ||
-                        s.contains("outdated", true) || s.contains("force update", true)
+                    val l = s.lowercase()
+                    l.contains("update available") ||
+                        l.contains("force update") ||
+                        l.contains("please update") ||
+                        l.contains("new version") ||
+                        l.contains("minimum version")
                 }
 
                 if (hasVersionString) {
                     instructions.forEachIndexed { index, instruction ->
-                        val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                            ?: return@forEachIndexed
-                        if (ref.returnType == "Z") {
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null && next.opcode == Opcode.MOVE_RESULT) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x0"
-                                )
-                            }
+                        val ref =
+                            (instruction as? ReferenceInstruction)?.reference as? MethodReference
+                                ?: return@forEachIndexed
+                        if (ref.returnType != "Z") return@forEachIndexed
+                        val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
+                        if (next != null && next.opcode == Opcode.MOVE_RESULT) {
+                            method.replaceInstruction(
+                                index + 1,
+                                "const/4 v${next.registerA}, 0x0",
+                            )
                         }
                     }
                 }
