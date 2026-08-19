@@ -13,8 +13,10 @@ import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
 /**
- * Unlock Premium / VIP / Pro / Gold / Subscription
- * This patch can Unlock Premium, VIP, Pro, Gold, Subscription for Some App.
+ * Unlock Premium — fixed:
+ * - null implementation guard
+ * - no replaceInstruction("nop")
+ * - safer hint matching (less false positives)
  */
 @Suppress("unused")
 val unlockPremiumPatch = bytecodePatch(
@@ -24,37 +26,26 @@ val unlockPremiumPatch = bytecodePatch(
 ) {
     execute {
         val premiumHints = listOf(
-            // Core
-            "premium", "ispremium", "is_premium", "haspremium", "has_premium",
-            "pro", "ispro", "is_pro", "proversion", "pro_version",
-            "vip", "isvip", "is_vip", "vipmember", "vip_member",
-            "gold", "isgold", "is_gold", "goldmember",
-            "paid", "ispaid", "is_paid", "purchased", "ispurchased", "is_purchased",
-            "owned", "isowned", "is_owned",
-            // Subscription
-            "subscri", "subscribed", "issubscribed", "is_subscribed",
-            "subscription", "hassubscription", "has_subscription",
-            "active_subscription", "subscription_active", "subscription_status",
-            // Access / unlock
-            "unlocked", "isunlocked", "is_unlocked", "unlockpremium", "unlock_premium",
+            "ispremium", "is_premium", "haspremium", "has_premium",
+            "premiumuser", "premium_user", "premiumenabled", "premium_enabled",
+            "ispro", "is_pro", "proversion", "pro_version", "prouser", "pro_user",
+            "isvip", "is_vip", "vipmember", "vip_member", "vipuser", "vip_user",
+            "isgold", "is_gold", "goldmember", "gold_member",
+            "ispurchased", "is_purchased", "haspurchased", "has_purchased",
+            "issubscribed", "is_subscribed", "hassubscription", "has_subscription",
+            "subscriptionactive", "subscription_active",
+            "isunlocked", "is_unlocked", "unlockpremium", "unlock_premium",
             "hasaccess", "has_access", "fullaccess", "full_access",
-            "adfree", "ad_free", "isadfree", "is_ad_free", "noads", "no_ads", "removeads", "remove_ads",
-            // Membership
-            "member", "ismember", "is_member", "membership",
-            "elite", "iselite", "is_elite",
-            "lifetime", "islifetime", "is_lifetime",
-            "plus", "isplus", "is_plus",
-            // Billing flags
-            "iap", "iab", "sku", "onetime", "one_time",
-            "donated", "isdonated", "trial", "istrial",
-            "activated", "isactivated", "is_activated",
-            "eligible", "iseligible", "is_eligible",
-            "valid", "isvalid", "is_valid",
-            "active", "isactive", "is_active",
-            // Extra common
-            "allowemojisfornonpremium", "isadsdisabled", "ispremiumuser",
-            "purchaseflag", "gopremium", "go_premium",
-            "platinum", "diamond", "prime",
+            "isadfree", "is_ad_free", "adfree", "ad_free", "removeads", "remove_ads",
+            "ismember", "is_member", "iselite", "is_elite",
+            "islifetime", "is_lifetime", "isplus", "is_plus",
+            "ispremiumuser", "go_premium", "gopremium",
+        )
+
+        // Field-only extra (shorter names ok on fields)
+        val fieldHints = premiumHints + listOf(
+            "premium", "subscribed", "purchased", "unlocked",
+            "isPaid", "isPro", "isVip", "isGold", "isPlus",
         )
 
         fun String.hasPremiumHint(): Boolean {
@@ -62,25 +53,34 @@ val unlockPremiumPatch = bytecodePatch(
             return premiumHints.any { lower.contains(it) }
         }
 
-        // Skip dangerous names
+        fun String.hasFieldHint(): Boolean {
+            val lower = lowercase()
+            return fieldHints.any { lower.contains(it) }
+        }
+
         fun String.shouldSkip(): Boolean {
             val lower = lowercase()
             return lower.contains("error") ||
                 lower.contains("exception") ||
                 lower.contains("log") ||
                 lower.contains("debug") ||
-                lower.contains("throw")
+                lower.contains("throw") ||
+                lower.contains("process") || // avoid "pro" inside process
+                lower.contains("product") ||
+                lower.contains("progress") ||
+                lower.contains("protocol") ||
+                lower.contains("provide")
         }
 
         classDefForEach { classDef ->
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val methodName = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                // FIX: never touch methods without implementation
+                if (method.instructionsOrNull == null) return@forEach
 
-                // =========================================================
-                // 1) Method body rewrite
-                // isPremium / isPro / hasSubscription / isVip ... ()Z → return true
-                // =========================================================
+                val methodName = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
+                // 1) isPremium / isPro / ... ()Z → return true
                 if (method.returnType == "Z" &&
                     methodName.hasPremiumHint() &&
                     !methodName.shouldSkip()
@@ -95,13 +95,7 @@ val unlockPremiumPatch = bytecodePatch(
                     return@forEach
                 }
 
-                if (instructions == null) return@forEach
-
-                // =========================================================
-                // 2) Field boolean reads
-                // iget-boolean / sget-boolean → *Premium* / *Pro* / *Vip* :Z
-                // force register = 1
-                // =========================================================
+                // 2) Field boolean reads: iget-boolean / sget-boolean
                 instructions.forEachIndexed { index, instruction ->
                     if (instruction.opcode != Opcode.IGET_BOOLEAN &&
                         instruction.opcode != Opcode.SGET_BOOLEAN
@@ -109,15 +103,17 @@ val unlockPremiumPatch = bytecodePatch(
                         return@forEachIndexed
                     }
 
-                    val fieldRef = (instruction as? ReferenceInstruction)?.reference as? FieldReference
-                        ?: return@forEachIndexed
+                    val fieldRef =
+                        (instruction as? ReferenceInstruction)?.reference as? FieldReference
+                            ?: return@forEachIndexed
 
                     if (fieldRef.type != "Z") return@forEachIndexed
-                    if (!fieldRef.name.hasPremiumHint()) return@forEachIndexed
+                    if (!fieldRef.name.hasFieldHint()) return@forEachIndexed
+                    if (fieldRef.name.shouldSkip()) return@forEachIndexed
 
                     val reg = when (instruction) {
-                        is TwoRegisterInstruction -> instruction.registerA  // iget-boolean
-                        is OneRegisterInstruction -> instruction.registerA  // sget-boolean
+                        is TwoRegisterInstruction -> instruction.registerA
+                        is OneRegisterInstruction -> instruction.registerA
                         else -> return@forEachIndexed
                     }
 
@@ -127,27 +123,26 @@ val unlockPremiumPatch = bytecodePatch(
                     )
                 }
 
-                // =========================================================
-                // 3) SharedPreferences / getBoolean("is_premium") style
-                // const-string "premium..." → invoke getBoolean → move-result → force true
-                // =========================================================
+                // 3) SharedPreferences / JSON getBoolean after premium string
                 instructions.forEachIndexed { index, instruction ->
-                    val str = ((instruction as? ReferenceInstruction)?.reference as? StringReference)
-                        ?.string ?: return@forEachIndexed
+                    val str =
+                        ((instruction as? ReferenceInstruction)?.reference as? StringReference)
+                            ?.string ?: return@forEachIndexed
 
-                    if (!str.hasPremiumHint()) return@forEachIndexed
+                    if (!str.hasPremiumHint() && !str.hasFieldHint()) return@forEachIndexed
 
-                    // Look ahead for getBoolean + move-result
                     for (offset in 1..8) {
                         val invoke = instructions.getOrNull(index + offset) ?: break
-                        val ref = (invoke as? ReferenceInstruction)?.reference as? MethodReference
-                            ?: continue
+                        val ref =
+                            (invoke as? ReferenceInstruction)?.reference as? MethodReference
+                                ?: continue
 
                         if (ref.name != "getBoolean" && ref.name != "getBool") continue
                         if (ref.returnType != "Z") continue
 
-                        val move = instructions.getOrNull(index + offset + 1) as? OneRegisterInstruction
-                            ?: continue
+                        val move =
+                            instructions.getOrNull(index + offset + 1) as? OneRegisterInstruction
+                                ?: continue
 
                         if (move.opcode == Opcode.MOVE_RESULT ||
                             move.opcode == Opcode.MOVE_RESULT_OBJECT
@@ -160,12 +155,11 @@ val unlockPremiumPatch = bytecodePatch(
                     }
                 }
 
-                // =========================================================
-                // 4) Call-sites: invoke isPremium() / isPro() → move-result force true
-                // =========================================================
+                // 4) Call-sites: invoke isPremium() → force true
                 instructions.forEachIndexed { index, instruction ->
-                    val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                        ?: return@forEachIndexed
+                    val ref =
+                        (instruction as? ReferenceInstruction)?.reference as? MethodReference
+                            ?: return@forEachIndexed
 
                     if (ref.returnType != "Z") return@forEachIndexed
                     if (!ref.name.hasPremiumHint()) return@forEachIndexed
