@@ -1,3 +1,9 @@
+## [1.22.0](https://github.com/callmeunik/universal-patches/compare/v1.21.6...v1.22.0) (2026-08-19)
+
+### ✨ New Features
+
+* Strengthen Signature kill (safe, error-free) ([2f78580](https://github.com/callmeunik/universal-patches/commit/2f785800e10b445aeab4fae09049320bb0c4870c))
+
 ## [1.21.6](https://github.com/callmeunik/universal-patches/compare/v1.21.5...v1.21.6) (2026-08-19)
 
 ### 🐛 Bug Fixes
