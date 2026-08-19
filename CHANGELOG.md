@@ -1,3 +1,10 @@
+## [1.22.2](https://github.com/callmeunik/universal-patches/compare/v1.22.1...v1.22.2) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Play Integrity Bypass without nop ([e63f356](https://github.com/callmeunik/universal-patches/commit/e63f356204b5f583480ab48c33547981fd0e0770))
+* Safe Enable screenshots without nop ([1cecade](https://github.com/callmeunik/universal-patches/commit/1cecadefd41135c3b6360b8b4ed5909aae670ab5))
+
 ## [1.22.1](https://github.com/callmeunik/universal-patches/compare/v1.22.0...v1.22.1) (2026-08-19)
 
 ### 🐛 Bug Fixes

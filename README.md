@@ -15,7 +15,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.22.1](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
+> **[v1.22.2](https://github.com/callmeunik/universal-patches/releases/tag/v1.22.2)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
 <details open>
 <summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;58 patches</summary>
 <br>
@@ -44,7 +44,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Enable Android debugging](#enable-android-debugging) | Sets android:debuggable=true. |  |
 | [Enable ROM signature spoofing](#enable-rom-signature-spoofing) | Adds fake-signature permission and metadata. | • Certificate hex/signature |
 | [Enable debug build target](#enable-debug-build-target) | Forces compatible BUILD_TARGET debug providers to debug=true. |  |
-| [Enable screenshots](#enable-screenshots) | Removes FLAG_SECURE so screenshots and screen recording are allowed. |  |
+| [Enable screenshots](#enable-screenshots) | Allows screenshots by clearing FLAG_SECURE on Activity onCreate. |  |
 | [Export all activities](#export-all-activities) | Makes all activities exportable. |  |
 | [Export internal data documents provider](#export-internal-data-documents-provider) | Registers an extension DocumentsProvider for the app internal data directory. |  |
 | [Force Allow Backup](#force-allow-backup) | Forces android:allowBackup="true" so the app can be backed up. |  |

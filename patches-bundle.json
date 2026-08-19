@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-19T06:05:08",
-  "description": "## [1.22.1](https://github.com/callmeunik/universal-patches/compare/v1.22.0...v1.22.1) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Ads Regex Basic without nop (stable) ([fac3f56](https://github.com/callmeunik/universal-patches/commit/fac3f56cb772475958dfc4d544babe8880e2b998))\n* Fix Bypass uninstall popup without nop (stable) ([c6c52e4](https://github.com/callmeunik/universal-patches/commit/c6c52e49c857198baa85fbc38ee545860fe478c2))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.22.1/patches-1.22.1.mpp",
+  "created_at": "2026-08-19T06:12:54",
+  "description": "## [1.22.2](https://github.com/callmeunik/universal-patches/compare/v1.22.1...v1.22.2) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Play Integrity Bypass without nop ([e63f356](https://github.com/callmeunik/universal-patches/commit/e63f356204b5f583480ab48c33547981fd0e0770))\n* Safe Enable screenshots without nop ([1cecade](https://github.com/callmeunik/universal-patches/commit/1cecadefd41135c3b6360b8b4ed5909aae670ab5))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.22.2/patches-1.22.2.mpp",
   "signature_download_url": "",
-  "version": "1.22.1"
+  "version": "1.22.2"
 }
