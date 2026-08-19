@@ -10,45 +10,92 @@ import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 /**
- * Universal signature verification killer.
- * Bypasses common PackageManager / SigningInfo / Signature checks.
- *
- * NOTE:
- * - Works on many Java-level checks
- * - Native / server-side signature checks cannot be fully killed by this
- * - Test per app; some apps may still detect re-signing
+ * Signature kill — powerful, safe, error-free:
+ * - null implementation guard (no NPE)
+ * - no replaceInstruction("nop")
+ * - targeted signature / integrity method names
+ * - PackageManager + SigningInfo call-site bypass
+ * - NO blind kill of every boolean in "Safety" classes
  */
 @Suppress("unused")
 val signatureKillPatch = bytecodePatch(
     name = "Signature kill",
-    description = "Bypasses common app signature and signing verification checks.",
+    description = "Bypasses common app signature, signing and integrity verification checks.",
     default = false,
 ) {
     execute {
+        val sigMethodHints = listOf(
+            "checksignature", "check_signature", "checksignatures",
+            "verifysignature", "verify_signature", "verifysign",
+            "validatesignature", "validate_signature", "validatesign",
+            "isvalidsignature", "is_valid_signature",
+            "signaturevalid", "signature_valid",
+            "checksigning", "verifysigning",
+            "checkcert", "verifycert", "validatecert",
+            "checkcertificate", "verifycertificate",
+            "checkintegrity", "verifyintegrity", "validateintegrity",
+            "integritycheck", "integrity_check",
+            "istampered", "is_tampered", "checktamper", "detecttamper",
+            "isapkmodified", "is_apk_modified", "ismodified",
+            "checkpkg", "verifypackage",
+            "originalsignature", "appsignature",
+        )
+
+        val skipParts = listOf(
+            "log", "debug", "error", "exception", "throw",
+            "toString", "hashCode", "equals", "compare",
+        )
+
+        fun String.hasSigHint(): Boolean {
+            val lower = lowercase().replace("_", "")
+            return sigMethodHints.any { lower.contains(it.replace("_", "")) }
+        }
+
+        fun String.shouldSkip(): Boolean =
+            skipParts.any { contains(it, ignoreCase = true) }
+
+        fun String.isSigGuardClass(): Boolean {
+            val c = this
+            return c.contains("SignatureCheck", true) ||
+                c.contains("SignatureVerifier", true) ||
+                c.contains("IntegrityCheck", true) ||
+                c.contains("IntegrityGuard", true) ||
+                c.contains("TamperDetect", true) ||
+                c.contains("AntiTamper", true) ||
+                c.contains("AppGuard", true) ||
+                c.contains("ProtGuard", true) ||
+                c.contains("SecurityCheck", true) ||
+                c.contains("LicenseCheck", true) ||
+                (c.contains("Signature", true) && c.contains("Util", true)) ||
+                (c.contains("Signature", true) && c.contains("Helper", true))
+        }
+
         classDefForEach { classDef ->
             val className = classDef.type
+            val isGuardClass = className.isSigGuardClass()
 
             mutableClassDefBy(classDef).methods.forEach { method ->
+                // ERROR-FREE: never touch null implementation
+                if (method.instructionsOrNull == null) return@forEach
+
                 val methodName = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                if (methodName.shouldSkip()) return@forEach
 
-                // ---- A) Neutralize methods that clearly verify signatures ----
-                val looksLikeSigCheck =
-                    methodName.contains("signature", true) ||
-                        methodName.contains("signing", true) ||
-                        methodName.contains("verifySign", true) ||
-                        methodName.contains("checkSign", true) ||
-                        methodName.contains("validateSign", true) ||
-                        methodName.contains("isValidSignature", true) ||
-                        methodName.contains("checkIntegrity", true) ||
-                        methodName.contains("verifyIntegrity", true) ||
-                        methodName.contains("checkCert", true) ||
-                        methodName.contains("verifyCert", true)
+                val instructions = method.instructionsOrNull!!.toList()
+                val looksLikeSig =
+                    methodName.hasSigHint() ||
+                        (isGuardClass &&
+                            (methodName.contains("check", true) ||
+                                methodName.contains("verify", true) ||
+                                methodName.contains("validate", true) ||
+                                methodName.contains("sign", true) ||
+                                methodName.contains("integrity", true) ||
+                                methodName.contains("tamper", true)))
 
-                if (looksLikeSigCheck && instructions != null) {
+                // ---- A) Method body rewrite ----
+                if (looksLikeSig) {
                     when (method.returnType) {
                         "Z" -> {
-                            // boolean checks → always true (valid)
                             method.addInstructions(
                                 0,
                                 """
@@ -58,14 +105,8 @@ val signatureKillPatch = bytecodePatch(
                             )
                             return@forEach
                         }
-
-                        "V" -> {
-                            method.addInstructions(0, "return-void")
-                            return@forEach
-                        }
-
                         "I" -> {
-                            // status codes → 0 (ok)
+                            // PackageManager.SIGNATURE_MATCH = 0
                             method.addInstructions(
                                 0,
                                 """
@@ -75,12 +116,14 @@ val signatureKillPatch = bytecodePatch(
                             )
                             return@forEach
                         }
+                        "V" -> {
+                            method.addInstructions(0, "return-void")
+                            return@forEach
+                        }
                     }
                 }
 
-                if (instructions == null) return@forEach
-
-                // ---- B) Patch PackageManager signature API call-sites ----
+                // ---- B) Call-sites (no nop) ----
                 instructions.forEachIndexed { index, instruction ->
                     val reference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
@@ -91,14 +134,13 @@ val signatureKillPatch = bytecodePatch(
                     val ret = reference.returnType
                     val next = instructions.getOrNull(index + 1)
 
-                    // PackageManager.checkSignatures → SIGNATURE_MATCH (0)
+                    // PackageManager.checkSignatures / checkUidSignatures → 0 (MATCH)
                     if (def == "Landroid/content/pm/PackageManager;" &&
                         (name == "checkSignatures" || name == "checkUidSignatures") &&
                         ret == "I"
                     ) {
                         val move = next as? OneRegisterInstruction
                         if (move != null && move.opcode == Opcode.MOVE_RESULT) {
-                            // PackageManager.SIGNATURE_MATCH = 0
                             method.replaceInstruction(
                                 index + 1,
                                 "const/4 v${move.registerA}, 0x0",
@@ -106,49 +148,47 @@ val signatureKillPatch = bytecodePatch(
                         }
                     }
 
-                    // PackageManager.getPackageInfo — cannot easily fake Signature[] here
-                    // but many apps compare hashes after getPackageInfo; covered by method-name kills above
+                    // SigningInfo helpers
+                    if (def == "Landroid/content/pm/SigningInfo;" && ret == "Z") {
+                        if (name == "hasMultipleSigners" ||
+                            name == "hasPastSigningCertificates"
+                        ) {
+                            val move = next as? OneRegisterInstruction
+                            if (move != null && move.opcode == Opcode.MOVE_RESULT) {
+                                method.replaceInstruction(
+                                    index + 1,
+                                    "const/4 v${move.registerA}, 0x0",
+                                )
+                            }
+                        }
+                    }
 
-                    // SigningInfo.hasMultipleSigners → false
-                    if (def == "Landroid/content/pm/SigningInfo;" &&
-                        name == "hasMultipleSigners" &&
-                        ret == "Z"
+                    // Custom verify / checkSignature call-sites → true
+                    if (ret == "Z" &&
+                        name.hasSigHint() &&
+                        !name.shouldSkip()
                     ) {
                         val move = next as? OneRegisterInstruction
-                        if (move != null && move.opcode == Opcode.MOVE_RESULT) {
+                        if (move != null &&
+                            (move.opcode == Opcode.MOVE_RESULT ||
+                                move.opcode == Opcode.MOVE_RESULT_OBJECT)
+                        ) {
                             method.replaceInstruction(
                                 index + 1,
-                                "const/4 v${move.registerA}, 0x0",
+                                "const/4 v${move.registerA}, 0x1",
                             )
                         }
                     }
 
-                    // SigningInfo.hasPastSigningCertificates → false
-                    if (def == "Landroid/content/pm/SigningInfo;" &&
-                        name == "hasPastSigningCertificates" &&
-                        ret == "Z"
-                    ) {
-                        val move = next as? OneRegisterInstruction
-                        if (move != null && move.opcode == Opcode.MOVE_RESULT) {
-                            method.replaceInstruction(
-                                index + 1,
-                                "const/4 v${move.registerA}, 0x0",
-                            )
-                        }
-                    }
-
-                    // Signature.equals / hash comparisons often custom — method-name kill helps
-
-                    // MessageDigest / cert compare helpers sometimes named verify
-                    if ((name.equals("verify", true) || name.equals("verifySignature", true)) &&
+                    // Signature.equals often used for compare — force true when in guard context
+                    if (def == "Landroid/content/pm/Signature;" &&
+                        name == "equals" &&
                         ret == "Z" &&
-                        (def.contains("Signature") ||
-                            def.contains("Certificate") ||
-                            def.contains("Package") ||
+                        (className.isSigGuardClass() ||
+                            className.contains("Signature", true) ||
                             className.contains("Security", true) ||
                             className.contains("License", true) ||
-                            className.contains("Protect", true) ||
-                            className.contains("Integrity", true))
+                            className.contains("Protect", true))
                     ) {
                         val move = next as? OneRegisterInstruction
                         if (move != null && move.opcode == Opcode.MOVE_RESULT) {
@@ -158,41 +198,6 @@ val signatureKillPatch = bytecodePatch(
                             )
                         }
                     }
-                }
-            }
-        }
-
-        // ---- C) Common wrapper classes: force success on boolean integrity methods ----
-        classDefForEach { classDef ->
-            val cn = classDef.type
-            if (!(cn.contains("Integrity") ||
-                    cn.contains("SecurityCheck") ||
-                    cn.contains("SignatureCheck") ||
-                    cn.contains("Tamper") ||
-                    cn.contains("AntiTamper") ||
-                    cn.contains("LicenseCheck") ||
-                    cn.contains("AppGuard") ||
-                    cn.contains("Safety") ||
-                    cn.contains("ProtGuard"))
-            ) {
-                return@classDefForEach
-            }
-
-            mutableClassDefBy(classDef).methods.forEach { method ->
-                if (method.returnType == "Z") {
-                    method.addInstructions(
-                        0,
-                        """
-                            const/4 v0, 0x1
-                            return v0
-                        """.trimIndent(),
-                    )
-                } else if (method.returnType == "V" &&
-                    (method.name.contains("check", true) ||
-                        method.name.contains("verify", true) ||
-                        method.name.contains("validate", true))
-                ) {
-                    method.addInstructions(0, "return-void")
                 }
             }
         }
