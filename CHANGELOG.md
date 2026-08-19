@@ -1,3 +1,9 @@
+## [1.21.1](https://github.com/callmeunik/universal-patches/compare/v1.21.0...v1.21.1) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Ads Regex Advance null impl and nop crash ([a2a9f1d](https://github.com/callmeunik/universal-patches/commit/a2a9f1daf4b96d05e3dd2cb080d0c6402e344572))
+
 ## [1.21.0](https://github.com/callmeunik/universal-patches/compare/v1.20.1...v1.21.0) (2026-08-19)
 
 ### ✨ New Features
