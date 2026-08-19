@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-19T05:40:00",
-  "description": "## [1.21.3](https://github.com/callmeunik/universal-patches/compare/v1.21.2...v1.21.3) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Bypass Emulator Detection nop crash ([87c8611](https://github.com/callmeunik/universal-patches/commit/87c8611f123c38a1ebdd4c4258ee63a82c6846b3))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.21.3/patches-1.21.3.mpp",
+  "created_at": "2026-08-19T05:45:54",
+  "description": "## [1.21.4](https://github.com/callmeunik/universal-patches/compare/v1.21.3...v1.21.4) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Disable Forced Updates nop crash ([2a03dfe](https://github.com/callmeunik/universal-patches/commit/2a03dfeceb88769f1153fc29f7a26684b2ecde72))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.21.4/patches-1.21.4.mpp",
   "signature_download_url": "",
-  "version": "1.21.3"
+  "version": "1.21.4"
 }

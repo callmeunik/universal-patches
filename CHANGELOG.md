@@ -1,3 +1,9 @@
+## [1.21.4](https://github.com/callmeunik/universal-patches/compare/v1.21.3...v1.21.4) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Disable Forced Updates nop crash ([2a03dfe](https://github.com/callmeunik/universal-patches/commit/2a03dfeceb88769f1153fc29f7a26684b2ecde72))
+
 ## [1.21.3](https://github.com/callmeunik/universal-patches/compare/v1.21.2...v1.21.3) (2026-08-19)
 
 ### 🐛 Bug Fixes
