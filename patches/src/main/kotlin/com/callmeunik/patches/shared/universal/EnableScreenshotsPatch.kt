@@ -2,64 +2,38 @@ package com.callmeunik.patches.shared.universal
 
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructionsOrNull
-import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
-import com.android.tools.smali.dexlib2.Opcode
-import com.android.tools.smali.dexlib2.iface.instruction.FiveRegisterInstruction
-import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
-import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 /**
- * Allows screenshots by removing / neutralizing FLAG_SECURE calls.
- * Useful for apps that block screenshots by default (banking, etc.).
+ * Enable screenshots — safe version:
+ * - No replaceInstruction("nop") on Window.addFlags/setFlags (that broke all flags + crashed)
+ * - Only clears FLAG_SECURE (0x2000) at Activity.onCreate start
+ * - Null implementation guard
  */
 @Suppress("unused")
 val enableScreenshotsPatch = bytecodePatch(
     name = "Enable screenshots",
-    description = "Removes FLAG_SECURE so screenshots and screen recording are allowed.",
+    description = "Allows screenshots by clearing FLAG_SECURE on Activity onCreate.",
     default = false,
 ) {
     execute {
         classDefForEach { classDef ->
-            mutableClassDefBy(classDef).methods.forEach { method ->
-                val instructions = method.instructionsOrNull?.toList() ?: return@forEach
-
-                instructions.forEachIndexed { index, instruction ->
-                    val reference =
-                        (instruction as? ReferenceInstruction)?.reference as? MethodReference
-                            ?: return@forEachIndexed
-
-                    // Window.addFlags(FLAG_SECURE) or setFlags with secure bit
-                    if (reference.definingClass != "Landroid/view/Window;") return@forEachIndexed
-
-                    when (reference.name) {
-                        "addFlags", "setFlags" -> {
-                            // Replace call with no-op style: don't apply secure flag
-                            // Safest approach: replace invoke with nop-equivalent by
-                            // clearing the secure bit usage — we skip the invoke.
-                            // Use: replace the invoke instruction with a safe nop path
-                            // by converting it to a harmless const (keeps register flow stable enough for many apps)
-                            method.replaceInstruction(index, "nop")
-                        }
-
-                        "clearFlags" -> {
-                            // leave as-is
-                        }
-                    }
-                }
-            }
-        }
-
-        // Also force clear FLAG_SECURE on Activity onCreate for stubborn apps
-        classDefForEach { classDef ->
             val superName = classDef.superclass ?: ""
-            if (!superName.contains("Activity") && !classDef.type.contains("Activity")) {
+            val typeName = classDef.type
+
+            // Only Activity subclasses / types
+            if (!superName.contains("Activity") && !typeName.contains("Activity")) {
                 return@classDefForEach
             }
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                if (method.name != "onCreate" || method.returnType != "V") return@forEach
+                if (method.name != "onCreate") return@forEach
+                if (method.returnType != "V") return@forEach
 
+                // ERROR-FREE: skip null implementation
+                if (method.instructionsOrNull == null) return@forEach
+
+                // Clear FLAG_SECURE = 0x2000
                 method.addInstructions(
                     0,
                     """
