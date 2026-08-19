@@ -1,3 +1,10 @@
+## [1.21.2](https://github.com/callmeunik/universal-patches/compare/v1.21.1...v1.21.2) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Remove All Ads Ultimate null impl and nop crash ([857a431](https://github.com/callmeunik/universal-patches/commit/857a431cc821d6e9db5bf26ee528307070385d57))
+* Fix SSL Bypass Ultimate null impl and nop crash ([abb3444](https://github.com/callmeunik/universal-patches/commit/abb3444c7cabad454457e8683764be203efc94c7))
+
 ## [1.21.1](https://github.com/callmeunik/universal-patches/compare/v1.21.0...v1.21.1) (2026-08-19)
 
 ### 🐛 Bug Fixes
