@@ -104,7 +104,6 @@ private val removeAllAdsUltimateResourcePatch = resourcePatch(
                 "android.permission.ACCESS_ADSERVICES_CUSTOM_AUDIENCE",
                 "android.permission.ACCESS_ADSERVICES_TOPICS",
             )
-
             listOf("uses-permission", "uses-permission-sdk-23").forEach { tag ->
                 val nodes = doc.getElementsByTagName(tag)
                 val toRemove = mutableListOf<org.w3c.dom.Node>()
@@ -154,16 +153,23 @@ val removeAllAdsUltimatePatch = bytecodePatch(
             val isAdClass = classDef.type.isUltimateAdRelated()
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val methodName = method.name
-                val instructions = method.instructionsOrNull?.toList() ?: return@forEach
+                // FIX 1: never touch null implementation
+                if (method.instructionsOrNull == null) return@forEach
 
+                val methodName = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
+                // A) Inside ad SDK classes → early return
                 if (isAdClass && !methodName.shouldSkip()) {
                     when {
                         method.returnType == "Z" && methodName.isSafeAdAction() -> {
-                            method.addInstructions(0, """
-                                const/4 v0, 0x0
-                                return v0
-                            """.trimIndent())
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x0
+                                    return v0
+                                """.trimIndent(),
+                            )
                             return@forEach
                         }
                         method.returnType == "V" && methodName.isSafeAdAction() -> {
@@ -173,6 +179,7 @@ val removeAllAdsUltimatePatch = bytecodePatch(
                     }
                 }
 
+                // B) Call-sites: only boolean force — NO nop
                 instructions.forEachIndexed { index, instruction ->
                     val reference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
@@ -192,25 +199,19 @@ val removeAllAdsUltimatePatch = bytecodePatch(
 
                     if (!isAdCall) return@forEachIndexed
 
-                    when (reference.returnType) {
-                        "Z" -> {
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null &&
-                                (next.opcode == Opcode.MOVE_RESULT ||
-                                    next.opcode == Opcode.MOVE_RESULT_OBJECT)
-                            ) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x0",
-                                )
-                            }
-                        }
-                        "V" -> {
-                            if (refName.isSafeAdAction()) {
-                                method.replaceInstruction(index, "nop")
-                            }
+                    if (reference.returnType == "Z") {
+                        val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
+                        if (next != null &&
+                            (next.opcode == Opcode.MOVE_RESULT ||
+                                next.opcode == Opcode.MOVE_RESULT_OBJECT)
+                        ) {
+                            method.replaceInstruction(
+                                index + 1,
+                                "const/4 v${next.registerA}, 0x0",
+                            )
                         }
                     }
+                    // Void invokes: do NOT use replaceInstruction(..., "nop")
                 }
             }
         }
