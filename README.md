@@ -15,9 +15,9 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.20.1](https://github.com/callmeunik/universal-patches/releases/tag/v1.20.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;57 patches total
+> **[v1.21.0](https://github.com/callmeunik/universal-patches/releases/tag/v1.21.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
 <details open>
-<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;57 patches</summary>
+<summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;58 patches</summary>
 <br>
 
 | 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
@@ -35,6 +35,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Disable Analytics Ultimate](#disable-analytics-ultimate) | Disables Firebase, Adjust, AppsFlyer, Mixpanel, Amplitude, Segment, Sentry and other common trackers. |  |
 | [Disable Forced Updates](#disable-forced-updates) | Bypasses common force-update and minimum-version checks. |  |
 | [Disable PairIP license check](#disable-pairip-license-check) | Removes PairIP manifest components and bypasses common license, VM and background check calls. |  |
+| [Disable PairIP license check (Basic)](#disable-pairip-license-check-basic) | Removes PairIP license activity, provider, service, receiver and meta-data from the manifest. Safe and size-friendly. |  |
 | [Disable Play Store updates](#disable-play-store-updates) | Removes Play Store update / installer related components and permissions from the manifest. |  |
 | [Disable ad SDK calls](#disable-ad-sdk-calls) | No-ops common ad SDK load/show/init/fetch methods in bundled ad packages. |  |
 | [Disable clipboard access](#disable-clipboard-access) | Blocks app clipboard reads and writes. |  |

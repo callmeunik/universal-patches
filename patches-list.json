@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.20.1",
+  "version": "1.21.0",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -311,6 +311,14 @@
       "dependencies": [
         "ResourcePatch"
       ],
+      "compatiblePackages": null,
+      "options": []
+    },
+    {
+      "name": "Disable PairIP license check (Basic)",
+      "description": "Removes PairIP license activity, provider, service, receiver and meta-data from the manifest. Safe and size-friendly.",
+      "default": false,
+      "dependencies": [],
       "compatiblePackages": null,
       "options": []
     },
