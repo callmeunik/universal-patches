@@ -1,3 +1,9 @@
+## [1.21.6](https://github.com/callmeunik/universal-patches/compare/v1.21.5...v1.21.6) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Remove Mod Toaster without nop (stable) ([31f0a7a](https://github.com/callmeunik/universal-patches/commit/31f0a7ad842d1715e001fde9d6f9a256b9b0522a))
+
 ## [1.21.5](https://github.com/callmeunik/universal-patches/compare/v1.21.4...v1.21.5) (2026-08-19)
 
 ### 🐛 Bug Fixes

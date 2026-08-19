@@ -15,7 +15,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.21.5](https://github.com/callmeunik/universal-patches/releases/tag/v1.21.5)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
+> **[v1.21.6](https://github.com/callmeunik/universal-patches/releases/tag/v1.21.6)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;58 patches total
 <details open>
 <summary>🌐 Universal&nbsp;&nbsp;•&nbsp;&nbsp;58 patches</summary>
 <br>
@@ -58,7 +58,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 | [Play Integrity Bypass](#play-integrity-bypass) | Basic bypass for common Play Integrity / SafetyNet / attestation checks. |  |
 | [Predictive back gesture](#predictive-back-gesture) | Enables Android predictive back gesture. |  |
 | [Remove All Ads Ultimate](#remove-all-ads-ultimate) | Safe + powerful ad remover. Cleans manifest and carefully disables common ad SDK load/show/isLoaded calls. |  |
-| [Remove Mod Toaster](#remove-mod-toaster) | Removes Toast/Dialog show calls and common mod APK toast messages (Telegram, t.me, Mod by). |  |
+| [Remove Mod Toaster](#remove-mod-toaster) | Removes common mod APK toast / promo dialogs (Telegram, t.me, Mod by, channel joins). |  |
 | [Remove Rate Us Popup](#remove-rate-us-popup) | Blocks common Rate Us / In-App Review dialogs and prompts. |  |
 | [Remove Tracking Parameters from URLs](#remove-tracking-parameters-from-urls) | Attempts to neutralize common tracking parameters (utm_*, fbclid, gclid, mc_eid, etc.) in URLs. |  |
 | [Remove ad manifest entries](#remove-ad-manifest-entries) | Removes common ad SDK permissions, services, providers, libraries, and metadata. |  |

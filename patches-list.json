@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.21.5",
+  "version": "1.21.6",
   "patches": [
     {
       "name": "Ads Regex Advance",
@@ -557,7 +557,7 @@
     },
     {
       "name": "Remove Mod Toaster",
-      "description": "Removes Toast/Dialog show calls and common mod APK toast messages (Telegram, t.me, Mod by).",
+      "description": "Removes common mod APK toast / promo dialogs (Telegram, t.me, Mod by, channel joins).",
       "default": false,
       "dependencies": [],
       "compatiblePackages": null,
