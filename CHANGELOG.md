@@ -1,3 +1,9 @@
+## [1.21.3](https://github.com/callmeunik/universal-patches/compare/v1.21.2...v1.21.3) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Bypass Emulator Detection nop crash ([87c8611](https://github.com/callmeunik/universal-patches/commit/87c8611f123c38a1ebdd4c4258ee63a82c6846b3))
+
 ## [1.21.2](https://github.com/callmeunik/universal-patches/compare/v1.21.1...v1.21.2) (2026-08-19)
 
 ### 🐛 Bug Fixes
