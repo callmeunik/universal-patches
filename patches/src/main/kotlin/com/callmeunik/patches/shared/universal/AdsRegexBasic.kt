@@ -4,20 +4,21 @@ import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.extensions.InstructionExtensions.instructionsOrNull
 import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.patch.bytecodePatch
-import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 import com.android.tools.smali.dexlib2.iface.instruction.OneRegisterInstruction
 import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 import com.android.tools.smali.dexlib2.iface.reference.MethodReference
-import com.android.tools.smali.dexlib2.iface.reference.StringReference
 
 /**
- * AdsRegexBasic — fixed: skip methods with null implementation.
+ * Ads Regex Basic — fixed:
+ * - null implementation guard
+ * - no replaceInstruction("nop")
+ * - loadAd/showAd method early-return + boolean force only
  */
 @Suppress("unused")
 val adsRegexBasicPatch = bytecodePatch(
     name = "Ads Regex Basic",
-    description = "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes, common ad strings).",
+    description = "Basic universal ad killer (loadAd/showAd methods, GMS ads invokes).",
     default = false,
 ) {
     execute {
@@ -32,58 +33,43 @@ val adsRegexBasicPatch = bytecodePatch(
             "loadRewardedVideo", "loadNextAd", "loadSmartBanner",
             "fetchAd", "fetchAds", "createInterstitialAd",
             "setNativeAd", "unsetNativeAd",
-            "AdClicked", "AdDismissed", "AdShown",
-            "onAdClicked", "onAdLoaded", "onAdClosed", "onAdOpened",
-            "onAdFailedToLoad", "onAdImpression", "onAdShowedFullScreenContent",
-            "onAdDismissedFullScreenContent", "onUserEarnedReward",
-            "setAdListener", "setRewardedVideoAdListener",
         )
 
         val adInvokeHints = listOf(
             "loadAd", "loadAds", "showAd", "showAds",
             "requestInterstitialAd", "showInterstitial", "showVideo",
-            "loadUrl", "loadDataWithBaseURL", "loadData",
-            "AdLoader", "AdRequest", "AdListener", "AdView",
-            "isLoading", "onAdClicked", "onAdLoaded",
             "fetchAd", "fetchAds", "requestBannerAd",
             "loadBannerAd", "loadNativeAd", "loadRewardedAd",
             "loadInterstitialAd", "loadAppOpenAd",
             "showRewardedVideo", "showOfferwall",
-            "setAdListener", "reportAdClicked", "reportAdImpression",
+            "isLoaded", "isLoading", "isReady", "canShow",
         )
 
-        fun hasImpl(method: app.morphe.patcher.util.proxy.mutableTypes.MutableMethod): Boolean {
-            return method.instructionsOrNull != null
-        }
-
-        fun isAbstractOrNative(accessFlags: Int): Boolean {
-            return AccessFlags.ABSTRACT.isSet(accessFlags) ||
-                AccessFlags.NATIVE.isSet(accessFlags)
-        }
+        fun String.isAdSdkClass(): Boolean =
+            contains("/ads/", true) ||
+                contains("AdMob", true) ||
+                contains("AdView", true) ||
+                contains("Interstitial", true) ||
+                contains("Rewarded", true) ||
+                contains("AdLoader", true) ||
+                contains("AdRequest", true) ||
+                contains("AdActivity", true) ||
+                contains("gms/ads", true) ||
+                contains("applovin", true) ||
+                contains("unity3d/ads", true) ||
+                contains("vungle", true) ||
+                contains("ironsource", true) ||
+                contains("facebook/ads", true) ||
+                contains("adcolony", true) ||
+                contains("chartboost", true)
 
         classDefForEach { classDef ->
             val className = classDef.type
-            val isAdClass =
-                className.contains("/ads/", true) ||
-                    className.contains("AdMob", true) ||
-                    className.contains("AdView", true) ||
-                    className.contains("Interstitial", true) ||
-                    className.contains("Rewarded", true) ||
-                    className.contains("AdLoader", true) ||
-                    className.contains("AdRequest", true) ||
-                    className.contains("AdListener", true) ||
-                    className.contains("AdActivity", true) ||
-                    className.contains("gms/ads", true) ||
-                    className.contains("applovin", true) ||
-                    className.contains("unity3d/ads", true) ||
-                    className.contains("vungle", true) ||
-                    className.contains("ironsource", true) ||
-                    className.contains("facebook/ads", true)
+            val isAdClass = className.isAdSdkClass()
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                // CRITICAL FIX: never touch methods without implementation
-                if (isAbstractOrNative(method.accessFlags)) return@forEach
-                if (!hasImpl(method)) return@forEach
+                // FIX: never touch null implementation
+                if (method.instructionsOrNull == null) return@forEach
 
                 val methodName = method.name
                 val instructions = method.instructionsOrNull!!.toList()
@@ -92,6 +78,7 @@ val adsRegexBasicPatch = bytecodePatch(
                     methodName.equals(it, true) || methodName.contains(it, true)
                 }
 
+                // ---- 1) loadAd / showAd style methods ----
                 if (nameHit) {
                     when (method.returnType) {
                         "V" -> {
@@ -111,11 +98,13 @@ val adsRegexBasicPatch = bytecodePatch(
                     }
                 }
 
+                // ---- 2) Ad SDK class: isLoaded / isReady → false ----
                 if (isAdClass && method.returnType == "Z" &&
                     (methodName.contains("isLoaded", true) ||
                         methodName.contains("isLoading", true) ||
                         methodName.contains("isReady", true) ||
-                        methodName.contains("canShow", true))
+                        methodName.contains("canShow", true) ||
+                        methodName.contains("isShowing", true))
                 ) {
                     method.addInstructions(
                         0,
@@ -127,6 +116,7 @@ val adsRegexBasicPatch = bytecodePatch(
                     return@forEach
                 }
 
+                // ---- 3) Call-sites: only boolean force — NO nop ----
                 instructions.forEachIndexed { index, instruction ->
                     val reference =
                         (instruction as? ReferenceInstruction)?.reference as? MethodReference
@@ -136,25 +126,13 @@ val adsRegexBasicPatch = bytecodePatch(
                     val name = reference.name
                     val ret = reference.returnType
 
-                    val isGmsAd =
-                        def.contains("gms/ads", true) ||
-                            def.contains("google/android/gms/ads", true) ||
-                            def.contains("/ads/", true) ||
-                            def.contains("AdView", true) ||
-                            def.contains("Interstitial", true) ||
-                            def.contains("Rewarded", true) ||
-                            def.contains("applovin", true) ||
-                            def.contains("unity3d", true) ||
-                            def.contains("facebook/ads", true)
-
                     val isAdInvoke =
-                        isGmsAd || adInvokeHints.any { name.contains(it, true) }
+                        def.isAdSdkClass() ||
+                            adInvokeHints.any { name.contains(it, true) }
 
-                    if (isAdInvoke && ret == "V") {
-                        method.replaceInstruction(index, "nop")
-                    }
+                    if (!isAdInvoke) return@forEachIndexed
 
-                    if (isAdInvoke && ret == "Z") {
+                    if (ret == "Z") {
                         val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
                         if (next != null && next.opcode == Opcode.MOVE_RESULT) {
                             method.replaceInstruction(
@@ -163,9 +141,10 @@ val adsRegexBasicPatch = bytecodePatch(
                             )
                         }
                     }
+                    // Void invokes: do NOT use replaceInstruction(..., "nop")
                 }
 
-                // Safer AdActivity handling: only early-return if class name is AdActivity
+                // ---- 4) AdActivity onCreate only (class name check) ----
                 if (methodName == "onCreate" &&
                     method.returnType == "V" &&
                     className.contains("AdActivity", true)
