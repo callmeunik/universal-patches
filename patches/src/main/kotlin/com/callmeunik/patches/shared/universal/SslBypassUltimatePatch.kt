@@ -88,45 +88,68 @@ val sslBypassUltimatePatch = bytecodePatch(
             "sslpinning", "ssl_pinning", "pinning",
             "trustmanager", "x509trustmanager", "hostnameverifier",
             "verifypin", "checkpin", "validatepin",
+            "okhostnameverifier",
         )
 
         fun String.hasPinHint() = pinHints.any { contains(it, ignoreCase = true) }
 
+        // ---- 1) Pin / trust related classes ----
         classDefForEach { classDef ->
             val className = classDef.type
             val isPinClass =
                 className.hasPinHint() ||
                     className.contains("TrustManager", true) ||
                     className.contains("CertificatePinner", true) ||
-                    className.contains("HostnameVerifier", true)
+                    className.contains("HostnameVerifier", true) ||
+                    className.contains("NetworkSecurityTrustManager", true)
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val name = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                // FIX: null implementation skip
+                if (method.instructionsOrNull == null) return@forEach
 
-                if (isPinClass || name.hasPinHint()) {
-                    when (method.returnType) {
-                        "V" -> {
-                            if (name.contains("check", true) ||
-                                name.contains("verify", true) ||
-                                name.contains("pin", true)
-                            ) {
-                                method.addInstructions(0, "return-void")
-                                return@forEach
-                            }
+                val methodName = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
+                if (isPinClass) {
+                    when {
+                        // HostnameVerifier.verify → true
+                        methodName == "verify" && method.returnType == "Z" -> {
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x1
+                                    return v0
+                                """.trimIndent(),
+                            )
+                            return@forEach
                         }
-                        "Z" -> {
-                            method.addInstructions(0, """
-                                const/4 v0, 0x1
-                                return v0
-                            """.trimIndent())
+
+                        // checkServerTrusted / checkClientTrusted / check → return-void
+                        (methodName == "checkServerTrusted" ||
+                            methodName == "checkClientTrusted" ||
+                            methodName == "check" ||
+                            methodName.contains("checkPin", true) ||
+                            methodName.contains("verifyPin", true)) &&
+                            method.returnType == "V" -> {
+                            method.addInstructions(0, "return-void")
+                            return@forEach
+                        }
+
+                        // boolean pin checks → true (allow)
+                        method.returnType == "Z" && methodName.hasPinHint() -> {
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x1
+                                    return v0
+                                """.trimIndent(),
+                            )
                             return@forEach
                         }
                     }
                 }
 
-                if (instructions == null) return@forEach
-
+                // Call-sites: only boolean force — NO nop
                 instructions.forEachIndexed { index, instruction ->
                     val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
                         ?: return@forEachIndexed
@@ -135,23 +158,21 @@ val sslBypassUltimatePatch = bytecodePatch(
                         return@forEachIndexed
                     }
 
-                    when (ref.returnType) {
-                        "V" -> method.replaceInstruction(index, "nop")
-                        "Z" -> {
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null && next.opcode == Opcode.MOVE_RESULT) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x1",
-                                )
-                            }
+                    if (ref.returnType == "Z") {
+                        val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
+                        if (next != null && next.opcode == Opcode.MOVE_RESULT) {
+                            method.replaceInstruction(
+                                index + 1,
+                                "const/4 v${next.registerA}, 0x1",
+                            )
                         }
                     }
+                    // Void: do NOT replaceInstruction(..., "nop")
                 }
             }
         }
 
-        // X509TrustManager style
+        // ---- 2) X509TrustManager implementations ----
         classDefForEach { classDef ->
             if (!classDef.interfaces.any {
                     it.contains("X509TrustManager") || it.contains("TrustManager")
@@ -161,18 +182,25 @@ val sslBypassUltimatePatch = bytecodePatch(
             }
 
             mutableClassDefBy(classDef).methods.forEach { method ->
+                if (method.instructionsOrNull == null) return@forEach
+
                 when {
                     method.name == "checkServerTrusted" && method.returnType == "V" ->
                         method.addInstructions(0, "return-void")
+
                     method.name == "checkClientTrusted" && method.returnType == "V" ->
                         method.addInstructions(0, "return-void")
+
                     method.name == "getAcceptedIssuers" &&
                         method.returnType == "[Ljava/security/cert/X509Certificate;" -> {
-                        method.addInstructions(0, """
-                            const/4 v0, 0x0
-                            new-array v0, v0, [Ljava/security/cert/X509Certificate;
-                            return-object v0
-                        """.trimIndent())
+                        method.addInstructions(
+                            0,
+                            """
+                                const/4 v0, 0x0
+                                new-array v0, v0, [Ljava/security/cert/X509Certificate;
+                                return-object v0
+                            """.trimIndent(),
+                        )
                     }
                 }
             }
