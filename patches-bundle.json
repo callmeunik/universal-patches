@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-08-18T11:44:38",
-  "description": "## [1.20.0](https://github.com/callmeunik/universal-patches/compare/v1.19.0...v1.20.0) (2026-08-18)\n\n### ✨ New Features\n\n* add Unlock Premium patch ([1f3d899](https://github.com/callmeunik/universal-patches/commit/1f3d89967fff9e6e88f563c1f8d2ad348e0cabde))",
-  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.20.0/patches-1.20.0.mpp",
+  "created_at": "2026-08-19T05:20:35",
+  "description": "## [1.20.1](https://github.com/callmeunik/universal-patches/compare/v1.20.0...v1.20.1) (2026-08-19)\n\n### 🐛 Bug Fixes\n\n* Fix Ads Regex Basic null implementation NPE ([20fd28b](https://github.com/callmeunik/universal-patches/commit/20fd28b03ee60539a30e55998564f29c05804ef5))\n* Fix Disable Analytics Ultimate nop replaceInstruction crash ([fe917ac](https://github.com/callmeunik/universal-patches/commit/fe917ac8d22481be95a10b783191ddb4a932fa24))",
+  "download_url": "https://github.com/callmeunik/universal-patches/releases/download/v1.20.1/patches-1.20.1.mpp",
   "signature_download_url": "",
-  "version": "1.20.0"
+  "version": "1.20.1"
 }

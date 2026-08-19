@@ -1,3 +1,10 @@
+## [1.20.1](https://github.com/callmeunik/universal-patches/compare/v1.20.0...v1.20.1) (2026-08-19)
+
+### 🐛 Bug Fixes
+
+* Fix Ads Regex Basic null implementation NPE ([20fd28b](https://github.com/callmeunik/universal-patches/commit/20fd28b03ee60539a30e55998564f29c05804ef5))
+* Fix Disable Analytics Ultimate nop replaceInstruction crash ([fe917ac](https://github.com/callmeunik/universal-patches/commit/fe917ac8d22481be95a10b783191ddb4a932fa24))
+
 ## [1.20.0](https://github.com/callmeunik/universal-patches/compare/v1.19.0...v1.20.0) (2026-08-18)
 
 ### ✨ New Features
