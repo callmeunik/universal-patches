@@ -59,11 +59,11 @@ val disableAnalyticsUltimatePatch = bytecodePatch(
 
     execute {
         val actionHints = listOf(
-            "logevent", "log_event", "trackevent", "track_event",
-            "track", "log", "record", "send", "report",
-            "identify", "setuser", "set_user", "alias",
-            "screen", "page", "purchase", "revenue",
-            "init", "initialize", "start", "enable",
+            "logevent", "log_event", "track", "trackevent",
+            "record", "send", "report", "log",
+            "setuser", "set_user", "identify",
+            "screen", "pageview", "revenue",
+            "initialize", "init", "start", "enable",
             "capture", "enqueue", "flush", "upload",
         )
 
@@ -79,9 +79,13 @@ val disableAnalyticsUltimatePatch = bytecodePatch(
             val isSdk = classDef.type.isAnalyticsRelated()
 
             mutableClassDefBy(classDef).methods.forEach { method ->
-                val name = method.name
-                val instructions = method.instructionsOrNull?.toList()
+                // Never touch methods without implementation
+                if (method.instructionsOrNull == null) return@forEach
 
+                val name = method.name
+                val instructions = method.instructionsOrNull!!.toList()
+
+                // 1) Inside analytics SDK classes → early return
                 if (isSdk && !name.shouldSkip() && name.hasAction()) {
                     when (method.returnType) {
                         "V" -> {
@@ -89,38 +93,40 @@ val disableAnalyticsUltimatePatch = bytecodePatch(
                             return@forEach
                         }
                         "Z" -> {
-                            method.addInstructions(0, """
-                                const/4 v0, 0x0
-                                return v0
-                            """.trimIndent())
+                            method.addInstructions(
+                                0,
+                                """
+                                    const/4 v0, 0x0
+                                    return v0
+                                """.trimIndent(),
+                            )
                             return@forEach
                         }
                     }
                 }
 
-                if (instructions == null) return@forEach
-
+                // 2) Call-sites: only force boolean results (NO nop replace)
                 instructions.forEachIndexed { index, instruction ->
                     val ref = (instruction as? ReferenceInstruction)?.reference as? MethodReference
                         ?: return@forEachIndexed
 
                     if (ref.name.shouldSkip()) return@forEachIndexed
-                    if (!ref.definingClass.isAnalyticsRelated() && !ref.name.hasAction()) {
-                        return@forEachIndexed
-                    }
 
-                    when (ref.returnType) {
-                        "V" -> method.replaceInstruction(index, "nop")
-                        "Z" -> {
-                            val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
-                            if (next != null && next.opcode == Opcode.MOVE_RESULT) {
-                                method.replaceInstruction(
-                                    index + 1,
-                                    "const/4 v${next.registerA}, 0x0",
-                                )
-                            }
+                    // Only analytics classes — avoid broad name matches
+                    if (!ref.definingClass.isAnalyticsRelated()) return@forEachIndexed
+                    if (!ref.name.hasAction()) return@forEachIndexed
+
+                    if (ref.returnType == "Z") {
+                        val next = instructions.getOrNull(index + 1) as? OneRegisterInstruction
+                        if (next != null && next.opcode == Opcode.MOVE_RESULT) {
+                            method.replaceInstruction(
+                                index + 1,
+                                "const/4 v${next.registerA}, 0x0",
+                            )
                         }
                     }
+                    // Void invokes: do NOT replaceInstruction(..., "nop")
+                    // — that causes "Collection is empty" in Morphe smali compiler
                 }
             }
         }
